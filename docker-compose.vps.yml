@@ -1,0 +1,54 @@
+# Para VPS que JÁ TEM outro proxy (Traefik) nas portas 80/443.
+# Sobe só a loja + banco próprio, sem Caddy:
+#   docker compose -f docker-compose.vps.yml -p bloco up -d --build
+#
+# Sem domínio: a loja fica em http://IP-DA-VPS:8088
+# Com domínio: preencha DOMAIN e SITE_URL=https://... no .env, descomente as
+#   linhas do Traefik abaixo e rode o comando de novo (HTTPS automático).
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      UPLOAD_DIR: /app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "${APP_PORT:-8088}:3000"
+    networks: [internal]   # com domínio: [internal, proxy]
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.docker.network=proxy
+    #   - traefik.http.routers.bloco.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)
+    #   - traefik.http.routers.bloco.entrypoints=websecure
+    #   - traefik.http.routers.bloco.tls.certresolver=letsencrypt
+    #   - traefik.http.services.bloco.loadbalancer.server.port=3000
+
+networks:
+  internal:
+  # proxy:
+  #   external: true
+
+volumes:
+  pgdata:
+  uploads:

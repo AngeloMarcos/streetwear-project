@@ -89,6 +89,19 @@ Copie a pasta `backups/` para fora da VPS de tempos em tempos.
 
 ---
 
+### VPS que já tem Traefik (outros sistemas nas portas 80/443)
+
+Use `docker-compose.vps.yml`: sobe só a loja e o banco dela, sem Caddy, sem mexer nos outros containers.
+
+```bash
+cd /opt/bloco && docker compose -f docker-compose.vps.yml -p bloco up -d --build
+docker compose -f docker-compose.vps.yml -p bloco exec app npm run seed   # só na primeira vez
+```
+
+Sem domínio, a loja fica em `http://IP-DA-VPS:8088`. Quando tiver domínio: aponte o DNS, coloque `DOMAIN` e `SITE_URL=https://...` no `.env`, descomente as linhas do Traefik no arquivo e rode o comando de novo.
+
+Atualizar depois: `cd /opt/bloco && git pull && docker compose -f docker-compose.vps.yml -p bloco up -d --build`
+
 ## 3. Mercado Pago
 
 1. Crie uma aplicação em **mercadopago.com.br/developers/panel/app** (produto: *Checkout Pro / Pagamentos online*).

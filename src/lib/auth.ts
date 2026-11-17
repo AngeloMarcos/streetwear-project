@@ -57,7 +57,7 @@ export async function login(password: string): Promise<string | null> {
   attempts.delete(ip);
   const exp = String(Date.now() + TTL_MS);
   (await cookies()).set(COOKIE, `${exp}.${sign(exp, s)}`, {
-    httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: TTL_MS / 1000,
+    httpOnly: true, sameSite: 'lax', secure: (process.env.SITE_URL ?? '').startsWith('https://'), // sem domínio/HTTPS ainda, o login funciona por http path: '/', maxAge: TTL_MS / 1000,
   });
   return null;
 }
