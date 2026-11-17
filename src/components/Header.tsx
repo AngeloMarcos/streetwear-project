@@ -8,6 +8,7 @@ import { money } from '@/lib/pricing';
 import type { ProductDTO } from '@/lib/products';
 import { useCart } from './CartProvider';
 import { ProductArt } from './ProductArt';
+import { site } from '@/content/site';
 
 const CAT_KEYS = Object.keys(CATEGORIES);
 const typesOf = (cat: string) => Object.entries(TYPES).filter(([, t]) => t.category === cat);
@@ -16,8 +17,8 @@ export type MenuArt = Record<string, ProductDTO | undefined>;
 
 export function Logo({ footer = false }: { footer?: boolean }) {
   return (
-    <Link href="/" className={`logo ${footer ? 'logo--footer' : ''}`} aria-label="BLOCO Supply Co. — início">
-      <span className="logo__mark" /><span className="logo__word">BLOCO</span>
+    <Link href="/" className={`logo ${footer ? 'logo--footer' : ''}`} aria-label={`${site.fullName}: início`}>
+      <span className="logo__mark" /><span className="logo__word">{site.name}</span>
     </Link>
   );
 }

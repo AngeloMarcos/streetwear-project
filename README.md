@@ -1,4 +1,6 @@
-# BLOCO Supply Co. — loja streetwear
+# Street Dreams — loja streetwear
+
+No ar em https://streetdreams.mentoark.com.br
 
 Loja própria em **Next.js 15 + PostgreSQL + Mercado Pago**, pronta para rodar numa VPS (Hostinger) com domínio próprio e HTTPS automático.
 
@@ -98,7 +100,7 @@ cd /opt/bloco && docker compose -f docker-compose.vps.yml -p bloco up -d --build
 docker compose -f docker-compose.vps.yml -p bloco exec app npm run seed   # só na primeira vez
 ```
 
-Sem domínio, a loja fica em `http://IP-DA-VPS:8088`. Quando tiver domínio: aponte o DNS, coloque `DOMAIN` e `SITE_URL=https://...` no `.env`, descomente as linhas do Traefik no arquivo e rode o comando de novo.
+O endereço vem de `DOMAIN` no `.env` (aponte o registro A para a VPS antes) e o Traefik gera o HTTPS sozinho. Use também `SITE_URL=https://<DOMAIN>`. A porta 8088 fica só dentro da VPS.
 
 Atualizar depois: `cd /opt/bloco && git pull && docker compose -f docker-compose.vps.yml -p bloco up -d --build`
 
@@ -154,3 +156,13 @@ prototipo/         protótipo HTML original
 | `/sitemap.xml`, `/robots.txt` | Gerados sozinhos para o Google, usam `SITE_URL` | — |
 
 **Antes de publicar:** preencha `site.company` (razão social, CNPJ, endereço e e-mail). A lei exige esses dados em loja online; eles aparecem no rodapé e nas páginas legais.
+
+
+## Templates de apresentação
+
+Três visuais para o mesmo site, com os mesmos produtos, carrinho e checkout: `/template-1` (Outlet direto), `/template-2` (Drop / Lookbook) e `/template-3` (Comunidade). Uma barra no topo troca entre eles. Ficam fora do Google.
+
+- Código comum: `src/templates/` (`Shell.tsx`, `client.tsx`, `ProductPage.tsx`, `OutletPage.tsx`, `meta.ts`, `base.css`)
+- Cada template: `src/templates/HomeN.tsx`, `src/templates/tN.css` e as rotas em `src/app/template-N/`
+- Feed, vídeos, avaliações e grupo VIP do template 3: `site.community` em `src/content/site.ts` (itens com `example: true` aparecem com a etiqueta "exemplo")
+- Outlet = produtos com desconto cadastrado no admin (campo Black Friday). Nenhuma regra de preço nova.

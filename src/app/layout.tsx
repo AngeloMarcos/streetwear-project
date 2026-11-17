@@ -7,6 +7,7 @@ import { CartProvider } from '@/components/CartProvider';
 import { CartDrawer } from '@/components/CartDrawer';
 import { Header, Logo } from '@/components/Header';
 import { SignupPopup, WhatsAppButton } from '@/components/Extras';
+import { SiteChrome } from '@/components/SiteChrome';
 import { shopConfig, siteUrl } from '@/lib/config';
 import { site } from '@/content/site';
 import { getBf, getProductsBySlugs } from '@/lib/products';
@@ -40,18 +41,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="pt-BR" className={`${anton.variable} ${inter.variable} ${mono.variable}`}>
       <body>
         <CartProvider config={shopConfig}>
+          <SiteChrome>
           <div className={`announce ${bf.phase === 'live' ? 'announce--bf' : ''}`} aria-label="Avisos">
             <div className="announce__track">{ann.map((a, i) => <span key={i}>{a}</span>)}</div>
           </div>
           <Suspense fallback={<header className="header" />}>
             <Header blackFriday={bf.phase !== 'off'} menuArt={menuArt} />
           </Suspense>
+          </SiteChrome>
           <main id="conteudo">{children}</main>
+          <SiteChrome>
           <footer className="footer">
             <div className="footer__grid">
               <div>
                 <Logo footer />
-                <p className="muted">Supply Co. — feito na rua, desde 2026.</p>
+                <p className="muted">Feito na rua, desde 2026.</p>
               </div>
               <div>
                 <h4>Loja</h4>
@@ -84,6 +88,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <span><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a> · <a href={site.social.tiktok} target="_blank" rel="noopener">TikTok</a></span>
             </div>
           </footer>
+          </SiteChrome>
           <CartDrawer />
           <WhatsAppButton href={site.social.whatsapp} />
           <SignupPopup blackFriday={bf.phase === 'teaser'} maxPercent={bf.maxPercent} />

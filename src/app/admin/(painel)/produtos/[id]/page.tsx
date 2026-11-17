@@ -15,7 +15,7 @@ export default async function EditProduct({ params, searchParams }: { params: Pr
   const p = isNew ? null : await db.product.findUnique({ where: { id }, include: { variants: { orderBy: { sort: 'asc' } } } });
   if (!isNew && !p) notFound();
   const sizes = p ? p.variants.map((v) => `${v.size}:${v.stock}`).join(' ') : 'P:0 M:0 G:0 GG:0';
-  const preview = p ?? { slug: '', type: 'tee', color: '#151515', bg: '#e9e6df', ink: '#ff4d00', print: 'BLOCO', images: [] as string[] };
+  const preview = p ?? { slug: '', type: 'tee', color: '#151515', bg: '#e9e6df', ink: '#ff4d00', print: 'STREET DREAMS', images: [] as string[] };
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function EditProduct({ params, searchParams }: { params: Pr
         <div className="panel">
           <h4 className="mono">Dados</h4>
           <div className="form">
-            <label className="field full">Nome<input name="name" required defaultValue={p?.name} placeholder="Camiseta Bloco Logo" /></label>
+            <label className="field full">Nome<input name="name" required defaultValue={p?.name} placeholder="Camiseta Street Dreams Logo" /></label>
             <label className="field">Cor (nome)<input name="colorName" required defaultValue={p?.colorName} placeholder="Preta" /></label>
             <label className="field">Preço (R$)<input name="price" required inputMode="decimal" defaultValue={p ? (p.priceCents / 100).toFixed(2) : ''} placeholder="149.90" /></label>
             <label className="field">Tipo

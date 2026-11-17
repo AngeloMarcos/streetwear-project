@@ -5,7 +5,7 @@ import { getProductsBySlugs, listProducts } from '@/lib/products';
 import { ProductArt } from '@/components/ProductArt';
 import { ShopGrid } from '@/components/ShopGrid';
 
-export const metadata: Metadata = { title: 'Collabs', description: 'Edições limitadas da BLOCO com artistas e estúdios. Tiragem única, sem reposição.' };
+export const metadata: Metadata = { title: 'Collabs', description: 'Edições limitadas da Street Dreams com artistas e estúdios. Tiragem única, sem reposição.' };
 
 export default async function CollabsPage() {
   const [products, [hero]] = await Promise.all([

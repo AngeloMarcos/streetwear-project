@@ -10,6 +10,7 @@ import { useCart } from './CartProvider';
 import { EmailForm } from './Forms';
 import { ProductArt } from './ProductArt';
 import { ProductCard } from './ProductCard';
+import { site } from '@/content/site';
 
 const store = {
   get(k: string) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -45,7 +46,7 @@ export function SignupPopup({ blackFriday, maxPercent }: { blackFriday: boolean;
   return (
     <div className="popup" role="dialog" aria-modal="false" aria-label="Entrar na lista">
       <button className="icon-btn popup__close" onClick={close} aria-label="Fechar">✕</button>
-      <span className="mono">{blackFriday ? 'Black Friday' : 'Lista BLOCO'}</span>
+      <span className="mono">{blackFriday ? 'Black Friday' : `Lista ${site.name}`}</span>
       <p className="popup__title">{blackFriday ? <>Até {maxPercent}% off.<br />Fica sabendo primeiro.</> : <>Drop toda quinta.<br />Fica sabendo antes.</>}</p>
       <p className="small">{blackFriday ? 'A gente manda o aviso no minuto em que a Black Friday abrir. Sem spam.' : 'Aviso de drop 1h antes de todo mundo. Sem spam, prometido.'}</p>
       <div onSubmit={() => setTimeout(close, 800)}>

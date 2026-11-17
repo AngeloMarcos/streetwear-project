@@ -558,3 +558,7 @@ details ul { padding-left: 18px; }
   .facts li:nth-child(n+3) { border-top: 1px solid var(--ink); }
 }
 @media (max-width: 760px) { .footer__bottom { padding-bottom: 72px; } }
+
+/* Nome Street Dreams: uma linha só */
+.logo__word { white-space: nowrap; }
+@media (max-width: 760px) { .header .logo__word { font-size: 24px; } }

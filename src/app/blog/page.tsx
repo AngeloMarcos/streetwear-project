@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { site } from '@/content/site';
 import { dateBR } from '@/lib/dates';
 
-export const metadata: Metadata = { title: 'Blog', description: 'Bastidores, skate e produto: o que acontece na BLOCO.' };
+export const metadata: Metadata = { title: 'Blog', description: 'Bastidores, skate e produto: o que acontece na Street Dreams.' };
 
 export default function BlogPage() {
   const [first, ...rest] = site.journal;

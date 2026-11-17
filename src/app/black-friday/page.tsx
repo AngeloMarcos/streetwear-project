@@ -6,7 +6,7 @@ import { ShopGrid } from '@/components/ShopGrid';
 import { ProductCard } from '@/components/ProductCard';
 import { money } from '@/lib/pricing';
 
-export const metadata: Metadata = { title: 'Black Friday', description: 'Black Friday BLOCO: descontos na loja toda, sem cupom.' };
+export const metadata: Metadata = { title: 'Black Friday', description: 'Black Friday Street Dreams: descontos na loja toda, sem cupom.' };
 
 export default async function BlackFridayPage() {
   const [bf, products] = await Promise.all([getBf(), listBlackFriday()]);

@@ -30,7 +30,7 @@ export async function createPixPayment(o: { id: string; number: number; totalCen
   const res = await new Payment(mp()).create({
     body: {
       transaction_amount: o.totalCents / 100,
-      description: `Pedido #${o.number} — BLOCO Supply Co.`,
+      description: `Pedido #${o.number} — Street Dreams`,
       payment_method_id: 'pix',
       external_reference: o.id,
       notification_url: notificationUrl(),
@@ -61,7 +61,7 @@ export async function createCheckoutPreference(o: {
       items,
       external_reference: o.id,
       notification_url: notificationUrl(),
-      statement_descriptor: 'BLOCO',
+      statement_descriptor: 'STREETDREAMS',
       back_urls: { success: back, pending: back, failure: back },
       auto_return: back.startsWith('https://') ? 'approved' : undefined,
       payer: { email: o.payer.email, name: splitName(o.payer.name).first_name, surname: splitName(o.payer.name).last_name, identification: { type: 'CPF', number: o.payer.cpf.replace(/\D/g, '') } },

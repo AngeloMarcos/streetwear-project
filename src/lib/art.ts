@@ -88,7 +88,7 @@ const SHAPES: Record<string, (p: P, v: number) => string> = {
     <rect x="72" y="4" width="56" height="192" rx="28" fill="#1b1b1b"/>
     <rect x="80" y="40" width="40" height="14" fill="#333"/><rect x="80" y="146" width="40" height="14" fill="#333"/>` : `
     <rect x="72" y="4" width="56" height="192" rx="28" fill="${p.color}"/>
-    <text transform="translate(108 100) rotate(-90)" text-anchor="middle" font-family="${FONT}" font-size="${fontFor(p.print || 'BLOCO', 36, 110)}" fill="${p.ink}">${esc(p.print || 'BLOCO')}</text>
+    <text transform="translate(108 100) rotate(-90)" text-anchor="middle" font-family="${FONT}" font-size="${fontFor(p.print || 'STREET DREAMS', 36, 110)}" fill="${p.ink}">${esc(p.print || 'STREET DREAMS')}</text>
     <circle cx="100" cy="30" r="3" fill="${SH}"/><circle cx="100" cy="170" r="3" fill="${SH}"/>`,
 };
 
