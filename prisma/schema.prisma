@@ -1,0 +1,135 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING // aguardando pagamento
+  PAID // pago — separar e enviar
+  SHIPPED // enviado (com código de rastreio)
+  DELIVERED // entregue
+  CANCELED // cancelado / expirado / recusado
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+  BOLETO
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  type        String // tee, hoodie, jacket, pants, shorts, cap, beanie, bag, socks, deck
+  category    String // roupas, acessorios, skate
+  description String      @default("")
+  priceCents  Int
+  colorName   String
+  color       String      @default("#151515") // cor da peça (placeholder SVG e filtro)
+  bg          String      @default("#e9e6df") // fundo do placeholder
+  ink         String      @default("#ff4d00") // cor da estampa do placeholder
+  print       String      @default("")
+  tags        String[]    @default([]) // novo, collab
+  images      String[]    @default([]) // URLs /uploads/... — quando vazio, usa o placeholder SVG
+  active      Boolean     @default(true)
+  dropAt      DateTime? // se no futuro: aparece bloqueado na página de drop e libera sozinho no horário
+  bfPercent   Int? // desconto na Black Friday: vazio = padrão da campanha, 0 = fora da promoção
+  sort        Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  variants    Variant[]
+  orderItems  OrderItem[]
+
+  @@index([category])
+}
+
+model Variant {
+  id         String       @id @default(cuid())
+  productId  String
+  product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size       String
+  stock      Int          @default(0)
+  sort       Int          @default(0)
+  orderItems OrderItem[]
+  alerts     StockAlert[]
+
+  @@unique([productId, size])
+}
+
+model Order {
+  id             String        @id @default(cuid())
+  number         Int           @unique @default(autoincrement())
+  accessToken    String // segredo do link /pedido/[id]?t=... enviado ao cliente
+  status         OrderStatus   @default(PENDING)
+  paymentMethod  PaymentMethod
+  subtotalCents  Int
+  shippingCents  Int
+  discountCents  Int           @default(0)
+  totalCents     Int
+  name           String
+  email          String
+  cpf            String
+  phone          String        @default("")
+  cep            String
+  street         String
+  addressNumber  String
+  complement     String        @default("")
+  district       String        @default("")
+  city           String
+  uf             String
+  mpPaymentId    String?
+  mpPreferenceId String?
+  mpCheckoutUrl  String?
+  pixQr          String?
+  pixQrBase64    String?
+  pixExpiresAt   DateTime?
+  trackingCode   String        @default("")
+  notes          String        @default("")
+  stockReleased  Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  paidAt         DateTime?
+  items          OrderItem[]
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String?
+  product    Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId  String?
+  variant    Variant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  name       String
+  colorName  String
+  size       String
+  priceCents Int
+  qty        Int
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String   @default("newsletter")
+  createdAt DateTime @default(now())
+}
+
+/// "Avise-me quando chegar": cliente quer saber quando o tamanho voltar
+model StockAlert {
+  id         String    @id @default(cuid())
+  email      String
+  variantId  String
+  variant    Variant   @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  notifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@unique([variantId, email])
+}
