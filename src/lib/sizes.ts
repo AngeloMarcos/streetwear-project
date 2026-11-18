@@ -1,7 +1,7 @@
 // Tabelas de medidas por tipo de peça (cm). Edite aqui com as medidas reais.
 export type SizeGuideData = { title: string; cols: string[]; rows: [string, ...number[]][]; fit: string };
 
-export const GUIDES: Record<'top' | 'jacket' | 'bottom' | 'shorts', SizeGuideData> = {
+export const GUIDES: Record<'top' | 'jacket' | 'bottom' | 'shorts' | 'jorts', SizeGuideData> = {
   top: {
     title: 'Camisetas e moletons',
     cols: ['Tamanho', 'Peito (cm)', 'Comprimento (cm)', 'Manga (cm)'],
@@ -20,6 +20,12 @@ export const GUIDES: Record<'top' | 'jacket' | 'bottom' | 'shorts', SizeGuideDat
     rows: [['38', 76, 104, 102], ['40', 80, 108, 103], ['42', 84, 112, 104], ['44', 88, 116, 105], ['46', 92, 120, 106]],
     fit: 'Perna larga e reta. Na dúvida, pegue o seu número de sempre.',
   },
+  jorts: {
+    title: 'Jorts e bermudas jeans',
+    cols: ['Tamanho', 'Cintura (cm)', 'Quadril (cm)', 'Comprimento (cm)'],
+    rows: [['38', 78, 112, 58], ['40', 82, 116, 59], ['42', 86, 120, 60], ['44', 90, 124, 61], ['46', 94, 128, 62]],
+    fit: 'Baggy, abaixo do joelho. Pegue seu número de sempre: o caimento largo já vem da modelagem.',
+  },
   shorts: {
     title: 'Bermudas',
     cols: ['Tamanho', 'Cintura (cm)', 'Quadril (cm)', 'Comprimento (cm)'],
@@ -28,5 +34,8 @@ export const GUIDES: Record<'top' | 'jacket' | 'bottom' | 'shorts', SizeGuideDat
   },
 };
 
-export const guideFor = (type: string) =>
-  GUIDES[type === 'jacket' ? 'jacket' : type === 'pants' ? 'bottom' : type === 'shorts' ? 'shorts' : 'top'];
+const MAP: Record<string, keyof typeof GUIDES> = {
+  jacket: 'jacket', track: 'jacket', puffer: 'jacket', shell: 'jacket',
+  pants: 'bottom', jeans: 'bottom', jorts: 'jorts', shorts: 'shorts',
+};
+export const guideFor = (type: string) => GUIDES[MAP[type] ?? 'top'];

@@ -18,7 +18,7 @@ export type MenuArt = Record<string, ProductDTO | undefined>;
 export function Logo({ footer = false }: { footer?: boolean }) {
   return (
     <Link href="/" className={`logo ${footer ? 'logo--footer' : ''}`} aria-label={`${site.fullName}: início`}>
-      <span className="logo__mark" /><span className="logo__word">{site.name}</span>
+      <span className="logo__word">{site.name}</span>
     </Link>
   );
 }
@@ -128,13 +128,15 @@ export function Header({ blackFriday = false, menuArt = {} }: { blackFriday?: bo
                   <div className="mega__col">
                     <span className="mono muted">{CATEGORIES[cat]}</span>
                     {typesOf(cat).map(([k, t]) => <Link key={k} href={`/loja?tipo=${k}`}>{t.plural}</Link>)}
-                    <Link href={`/loja?cat=${cat}`} className="link-arrow">Ver tudo →</Link>
+                    <Link href={`/loja?cat=${cat}`} className="link-arrow">Ver tudo</Link>
                   </div>
                   <div className="mega__col">
                     <span className="mono muted">Destaques</span>
                     <Link href="/loja?tag=novo">Novidades</Link>
                     <Link href="/collabs">Collabs</Link>
+                    <Link href="/lookbook">Lookbook Verão 27</Link>
                     <Link href="/drop">Drop da semana</Link>
+                    <Link href="/blog">Blog</Link>
                     {blackFriday && <Link href="/black-friday" className="price--bf">Black Friday</Link>}
                   </div>
                   {feat && (
@@ -148,8 +150,6 @@ export function Header({ blackFriday = false, menuArt = {} }: { blackFriday?: bo
             );
           })}
           {navLink('/collabs', 'Collabs')}
-          {navLink('/lookbook', 'Lookbook')}
-          {navLink('/blog', 'Blog')}
           <Link href="/drop" className={`nav__drop ${pathname === '/drop' ? 'is-active' : ''}`}>Drop</Link>
         </nav>
         <div className="header__actions">

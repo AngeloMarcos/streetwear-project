@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Anton, Inter, JetBrains_Mono } from 'next/font/google';
+import { Archivo, Geist, JetBrains_Mono } from 'next/font/google';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import './globals.css';
+import './verao27.css';
 import { CartProvider } from '@/components/CartProvider';
 import { CartDrawer } from '@/components/CartDrawer';
 import { Header, Logo } from '@/components/Header';
@@ -15,8 +16,9 @@ import { getBf, getProductsBySlugs } from '@/lib/products';
 // Todas as páginas leem estoque/preço do banco a cada acesso
 export const dynamic = 'force-dynamic';
 
-const anton = Anton({ weight: '400', subsets: ['latin'], variable: '--font-anton' });
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+// Archivo larga (expanded) nos títulos, Geist no texto
+const archivo = Archivo({ subsets: ['latin'], axes: ['wdth'], variable: '--font-archivo' });
+const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
 const mono = JetBrains_Mono({ weight: '500', subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
@@ -24,9 +26,9 @@ export const metadata: Metadata = {
   title: { default: site.fullName, template: `%s — ${site.fullName}` },
   description: site.tagline,
   openGraph: { siteName: site.fullName, locale: 'pt_BR', type: 'website' },
-  icons: { icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Crect x='7' y='7' width='18' height='18' fill='%23ff4d00'/%3E%3C/svg%3E" },
+  icons: { icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232b3bff'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial Black,sans-serif' font-size='14' fill='%23fff'%3ESD%3C/text%3E%3C/svg%3E" },
 };
-export const viewport: Viewport = { themeColor: '#111111' };
+export const viewport: Viewport = { themeColor: '#ffffff' };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [bf, catArt] = await Promise.all([getBf(), getProductsBySlugs(Object.values(site.categoryArt))]);
@@ -38,7 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       : site.announcements;
   const ann = [...list, ...list];
   return (
-    <html lang="pt-BR" className={`${anton.variable} ${inter.variable} ${mono.variable}`}>
+    <html lang="pt-BR" className={`${archivo.variable} ${geist.variable} ${mono.variable}`}>
       <body>
         <CartProvider config={shopConfig}>
           <SiteChrome>

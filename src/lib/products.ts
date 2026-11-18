@@ -121,7 +121,8 @@ export async function listBestSellers(take = 8) {
   ranked.sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id));
   const inStock = ranked.filter((p) => p.sizes.some((s) => s.available));
   if (inStock.length >= take) return inStock.slice(0, take);
-  const fill = await listProducts({ id: { notIn: inStock.map((p) => p.id) } }, take * 2);
+  // completa com a coleção anterior primeiro (as novidades já têm seção própria na home)
+  const fill = await listProducts({ id: { notIn: inStock.map((p) => p.id) }, NOT: { tags: { has: 'novo' } } }, take * 2);
   return [...inStock, ...fill.filter((p) => p.sizes.some((s) => s.available))].slice(0, take);
 }
 

@@ -1,0 +1,238 @@
+/* =====================================================================
+   VERÃO 27 — visual 2026 (carregado depois do globals.css)
+   Fundo branco de estúdio, letra larga (Archivo Expanded), azul caneta
+   como cor da marca, botões arredondados e linhas finas.
+   ===================================================================== */
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --paper-2: #f0efec;
+  --line: #e3e1dc;
+  --muted: #6b6966;
+  --accent: #2b3bff;
+  --sale: #ff3b00;
+  --ok: #0f7a3e;
+  --display: var(--font-archivo), 'Arial Black', sans-serif;
+  --body: var(--font-geist), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: var(--font-geist), system-ui, sans-serif;
+  --header-h: 60px;
+}
+body { background: var(--paper); font-size: 15px; -webkit-font-smoothing: antialiased; }
+.mono { font-family: var(--body); font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 500; }
+
+/* Títulos: Archivo larga, pesada, apertada */
+.hero__title, .section__title, .pdp__title, .shop-head h1, .drop-banner__title, .collab__title, .look__info h2,
+.checkout h1, .drawer__head h3, .help h2, .kpis b, .bf__title, .bf__off, .popup__title, .modal__head h3, .facts b,
+.cat__label, .countdown b, .post__img, .ranked__n, .bf__marquee, .mobile-menu a, .cover__title, .trend__label, .values b {
+  font-family: var(--display); font-weight: 800; font-stretch: 118%; letter-spacing: -.02em;
+}
+.section__title { font-size: clamp(28px, 4.2vw, 56px); line-height: .95; }
+.shop-head h1 { font-size: clamp(40px, 7vw, 96px); line-height: .9; letter-spacing: -.035em; }
+.pdp__title { font-size: clamp(26px, 2.8vw, 40px); line-height: 1; }
+.drop-banner__title { font-size: clamp(34px, 5vw, 72px); }
+.collab__title { font-size: clamp(36px, 5vw, 80px); }
+.look__info h2 { font-size: clamp(30px, 3.6vw, 56px); }
+.checkout h1 { font-size: clamp(32px, 4.6vw, 56px); }
+.bf__title { font-size: clamp(52px, 10vw, 150px); }
+.drawer__head h3, .modal__head h3 { font-size: 20px; }
+.help h2 { font-size: 24px; }
+.popup__title { font-size: 26px; }
+.facts b { font-size: clamp(26px, 3.2vw, 44px); }
+
+/* Anúncio (High / Palace): faixa azul correndo */
+.announce { background: var(--accent); color: #fff; height: 30px; }
+.announce__track { font-family: var(--body); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+.announce__track span::before { content: '✦'; color: #fff; opacity: .7; }
+.announce--bf { background: #000; color: #fff; }
+.announce--bf .announce__track span::before { color: var(--sale); }
+
+/* Topo com logo no centro (Stüssy / Kith) */
+.header { grid-template-columns: 1fr auto 1fr; grid-template-areas: 'nav logo actions'; border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, .94); backdrop-filter: saturate(1.4) blur(10px); }
+.header .logo { grid-area: logo; justify-self: center; }
+.header .nav { grid-area: nav; justify-content: flex-start; gap: 22px; font-size: 14px; font-weight: 500; text-transform: none; letter-spacing: 0; }
+.header__actions { grid-area: actions; justify-self: end; }
+.menu-toggle { grid-area: toggle; justify-self: start; }
+.nav a { border-bottom-width: 1.5px; }
+.nav__drop { color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.nav__drop::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+.logo__word { font-family: var(--display); font-weight: 900; font-stretch: 125%; font-size: 21px; letter-spacing: -.03em; }
+.logo--footer .logo__word { font-size: 30px; color: #fff; }
+.icon-btn { border-radius: 50%; }
+.icon-btn:hover { background: var(--paper-2); }
+.cart-count { background: var(--accent); }
+.mega { background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 24px 40px -32px rgba(0, 0, 0, .35); }
+.mega__col:first-child { display: grid; grid-template-columns: repeat(2, minmax(130px, auto)); gap: 10px 36px; align-content: start; }
+.mega__col:first-child > span, .mega__col:first-child > .link-arrow { grid-column: 1 / -1; }
+.mega .mono { color: var(--muted); }
+.search, .search-results { background: #fff; border-bottom-color: var(--line); }
+.mobile-menu { background: #fff; }
+.mobile-menu a { font-size: 26px; text-transform: uppercase; border-bottom-color: var(--line); }
+.mobile-menu .mobile-menu__sub a { font-weight: 400; letter-spacing: 0; font-stretch: 100%; }
+
+/* Botões arredondados */
+.btn { border-radius: 999px; height: 46px; padding: 0 22px; text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 14px; border-width: 1.5px; }
+.btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--light { background: #fff; color: #000; border-color: #fff; }
+.btn--light:hover { background: #000; border-color: #000; color: #fff; }
+.btn--ghost { background: transparent; color: var(--ink); }
+.btn--line { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .7); }
+.btn--line:hover { background: #fff; color: #000; border-color: #fff; }
+.btn--accent, .bf__form button, .popup__form button { color: #fff; }
+.btn[disabled] { background: #000; color: #fff; }
+.chip { border-radius: 999px; text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 13px; border-color: var(--line); }
+.chip.is-active { background: #000; border-color: #000; }
+.select { border-radius: 999px; border-color: var(--line); padding: 0 12px; font-weight: 500; }
+.size { border-color: var(--line); border-radius: 8px; font-weight: 500; }
+.size.is-active { border-color: #000; }
+.link-arrow { text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 600; border-bottom-width: 1.5px; }
+
+/* Capa Verão 27: título gigante e as peças na frente */
+.cover { position: relative; overflow: hidden; background: var(--accent); color: #fff; min-height: min(88vh, 860px); display: grid; grid-template-rows: 1fr auto; grid-template-columns: minmax(0, 1fr); padding: clamp(16px, 3vw, 40px) var(--gutter) clamp(20px, 3vw, 36px); isolation: isolate; }
+.cover .hero__video { z-index: -1; }
+.cover__title { align-self: center; display: flex; justify-content: space-between; gap: .2em; font-size: clamp(64px, 12.6vw, 260px); line-height: .78; text-transform: uppercase; letter-spacing: -.045em; font-stretch: 125%; white-space: nowrap; animation: cover-in .9s cubic-bezier(.2, .7, .1, 1) both; }
+.cover__pieces { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.cover__piece { position: absolute; aspect-ratio: 4 / 5; pointer-events: auto; animation: piece-in 1s cubic-bezier(.2, .7, .1, 1) both; }
+.cover__piece .art, .stl__piece .art { position: absolute; inset: 0; }
+.cover__piece--0 { left: 12%; top: 6%; width: 38%; rotate: -7deg; animation-delay: .15s; }
+.cover__piece--1 { left: 46%; top: 20%; width: 32%; rotate: 4deg; animation-delay: .3s; }
+.cover__piece--2 { left: 72%; top: 0; width: 18%; rotate: 10deg; animation-delay: .45s; }
+.cover__foot { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 32px; flex-wrap: wrap; }
+.cover__foot p { max-width: 380px; font-size: 16px; line-height: 1.45; }
+.cover__ctas { display: flex; gap: 8px; flex-wrap: wrap; }
+@keyframes cover-in { from { opacity: 0; letter-spacing: .05em; } }
+@keyframes piece-in { from { opacity: 0; translate: 0 40px; } }
+
+/* Vantagens */
+.perks { border-bottom: 1px solid var(--line); background: #fff; }
+.perks li { border-right-color: var(--line); }
+.perks b { text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+/* Trilho de novidades (Kith / Stüssy) */
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 16px) / 4); gap: 28px 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; }
+.rail > * { scroll-snap-align: start; min-width: 0; }
+
+/* Cards de produto */
+.card__img { background: var(--paper-2); }
+.badges { gap: 4px; }
+.badge { font-family: var(--body); font-size: 11px; letter-spacing: 0; text-transform: none; font-weight: 600; border: 0; border-radius: 999px; padding: 3px 9px; background: #fff; }
+.badge--accent { background: var(--accent); color: #fff; }
+.badge--dark { background: #000; color: #fff; }
+.badge--bf { background: var(--sale); color: #fff; }
+.card__name { font-weight: 500; }
+.price { font-weight: 600; }
+.price-pix { font-weight: 500; }
+.price--bf, .bf-saved { color: var(--sale); }
+.quick-add button { border: 0; border-radius: 6px; background: rgba(255, 255, 255, .92); height: 32px; font-weight: 500; }
+.quick-add button:hover { background: #000; color: #fff; }
+
+/* Tendências (Carhartt WIP) */
+.trends { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 0 var(--gutter) clamp(40px, 6vw, 80px); }
+.trend { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: var(--paper-2); }
+.trend__img .art { position: absolute; inset: 0; transition: transform .5s; }
+.trend:hover .trend__img .art { transform: scale(1.06); }
+.trend__label { position: absolute; left: 10px; bottom: 10px; font-size: clamp(14px, 1.4vw, 19px); text-transform: uppercase; background: #fff; padding: 6px 12px 5px; border-radius: 999px; }
+.trend:hover .trend__label { background: var(--accent); color: #fff; }
+
+/* Monte o look (Kith) */
+.stl { display: grid; grid-template-columns: 1.15fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stl__stage { position: relative; min-height: min(78vh, 720px); overflow: hidden; }
+.stl__piece { position: absolute; aspect-ratio: 4 / 5; }
+.stl__piece--0 { left: 2%; top: 2%; width: 52%; rotate: -4deg; }
+.stl__piece--1 { left: 44%; top: 30%; width: 46%; rotate: 3deg; }
+.stl__piece--2 { left: 60%; top: 0; width: 30%; rotate: 8deg; }
+.stl__piece--3 { left: 6%; top: 62%; width: 34%; rotate: -6deg; }
+.stl__pin { position: absolute; left: 22%; top: 24%; width: 28px; height: 28px; border-radius: 50%; background: #000; color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; z-index: 2; }
+.stl__piece:hover .stl__pin { background: var(--accent); }
+.stl__panel { padding: clamp(24px, 4vw, 56px) var(--gutter); display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.stl__panel > .muted { max-width: 420px; }
+.stl__list { list-style: none; display: grid; margin-top: 8px; border-top: 1px solid var(--line); }
+.stl__list li { display: grid; grid-template-columns: 28px 1fr auto 120px; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.stl__n { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #000; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+.stl__name { display: flex; flex-direction: column; font-weight: 500; line-height: 1.3; }
+.stl__name:hover { text-decoration: underline; }
+.stl__price { font-weight: 600; white-space: nowrap; }
+.stl__list .select { width: 100%; }
+.stl__foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.stl__foot b { font-size: 18px; margin-left: 6px; }
+
+/* Drop de quinta (Supreme / Palace): preto com contagem */
+.drop-banner { background: #000; color: #fff; border: 0; }
+.drop-banner .btn { background: #fff; color: #000; border-color: #fff; }
+.drop-banner .btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.drop-banner__grid { border-left: 1px solid #222; }
+.drop-banner__grid > div { border-color: #222; }
+.countdown div { border-radius: 10px; }
+.drop-banner .countdown div { background: #fff; color: #000; }
+.countdown span { font-family: var(--body); font-size: 11px; letter-spacing: 0; }
+.lock { font-family: var(--body); font-size: 12px; letter-spacing: 0; }
+.lock span { background: #fff; color: #000; border-radius: 999px; padding: 4px 10px; font-weight: 600; }
+
+/* Mais vendidos */
+.ranked__n { font-size: 40px; -webkit-text-stroke: 0; color: var(--accent); }
+
+/* Valores (Noah) */
+.values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px var(--gutter); padding: clamp(40px, 6vw, 72px) var(--gutter); border-bottom: 1px solid var(--line); }
+.values b { font-size: 17px; text-transform: uppercase; }
+.values p { color: var(--muted); font-size: 14px; margin-top: 6px; max-width: 34ch; }
+
+/* Blog, newsletter, rodapé */
+.post__img { font-size: clamp(28px, 3.4vw, 48px); text-transform: uppercase; }
+.newsletter { background: var(--accent); }
+.newsletter form { border-bottom-color: #fff; }
+.newsletter input::placeholder { color: #c9ccff; }
+.footer { background: #000; }
+.footer__grid a:hover { color: #9aa3ff; }
+.pay-badges span { font-family: var(--body); border-radius: 4px; }
+
+/* Linhas finas no lugar das pretas */
+.shop-head, .pdp, .look, details, details:last-of-type, .drawer__head, .drawer__foot, .filters.is-open { border-color: var(--line); }
+.pdp__gallery { background: var(--line); border-right-color: var(--line); }
+.pdp__gallery > div, .line__img, .thumb, .mega__img, .search-hit__img, .upsell__img, .variant { background: var(--paper-2); }
+.pay-box, .pay-opt, .field input, .field select, .field textarea, .shipping-calc input, .notify__form input { border-color: var(--line); border-radius: 10px; }
+.pay-opt:has(input:checked) { border-color: #000; }
+.qty { border-color: var(--line); border-radius: 999px; }
+.summary { border-radius: 12px; }
+.drawer { background: #fff; }
+.ship-bar__track { border-radius: 99px; overflow: hidden; }
+.summary, .order-summary, .ship-bar__track { background: var(--paper-2); }
+.filters h4, .field, summary, .label-row { text-transform: none; letter-spacing: 0; }
+.modal { border: 0; border-radius: 14px; box-shadow: 0 30px 80px rgba(0, 0, 0, .3); }
+.popup { box-shadow: 0 20px 60px rgba(0, 0, 0, .35); border-radius: 14px; }
+.toast { border-radius: 999px; }
+.trust li::before { color: var(--accent); }
+.bf__marquee { color: #fff; }
+
+@media (max-width: 1180px) {
+  .header .nav { display: none; }
+  .menu-toggle { display: inline-grid; }
+  .header { grid-template-areas: 'toggle logo actions'; }
+}
+@media (max-width: 1024px) {
+  .rail { grid-auto-columns: calc((100% - 2 * 16px) / 3); }
+  .trends { grid-template-columns: repeat(3, 1fr); }
+  .values { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .cover { min-height: 78svh; }
+  .cover__title { flex-direction: column; justify-content: center; align-self: start; font-size: 20.5vw; line-height: .8; margin-top: 4vw; }
+  .cover__title span:last-child { align-self: flex-end; }
+  .cover__piece--0 { left: -4%; top: 24%; width: 64%; }
+  .cover__piece--1 { left: 44%; top: 32%; width: 56%; }
+  .cover__piece--2 { left: 56%; top: 4%; width: 34%; }
+  .cover__foot p { font-size: 15px; }
+  .cover__ctas, .cover__ctas .btn { width: 100%; }
+  .cover__ctas .btn { flex: 1; }
+  .rail { grid-auto-columns: 64%; gap: 24px 10px; }
+  .trends { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 42%; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .trend { scroll-snap-align: start; }
+  .stl { grid-template-columns: 1fr; }
+  .stl__stage { min-height: 0; aspect-ratio: 1 / 1.05; }
+  .stl__list li { grid-template-columns: 28px 1fr auto; }
+  .stl__list li > :last-child { grid-column: 2 / -1; }
+  .stl__foot, .stl__foot .btn { width: 100%; }
+  .values { grid-template-columns: 1fr; gap: 20px; }
+  .header .logo__word { font-size: 18px; }
+}
+.nav__bf { white-space: nowrap; border-radius: 999px; padding: 4px 12px !important; background: var(--sale); color: #fff !important; font-weight: 700; border: 0 !important; }
+.mobile-menu .nav__bf { padding: 4px 14px !important; }

@@ -3,32 +3,49 @@ export const site = {
   name: 'STREET DREAMS',
   fullName: 'Street Dreams',
   tagline: 'Streetwear, skate e drops semanais.',
-  announcements: ['FRETE GRÁTIS ACIMA DE R$ 299', '5% OFF NO PIX', 'ATÉ 6X SEM JUROS', 'DROP TODA QUINTA 11H', 'TROCA GRÁTIS EM 30 DIAS'],
+  announcements: ['VERÃO 27 NO AR', 'FRETE GRÁTIS ACIMA DE R$ 299', '5% OFF NO PIX', 'ATÉ 6X SEM JUROS', 'DROP TODA QUINTA 11H', 'TROCA GRÁTIS EM 30 DIAS'],
   hero: {
-    kicker: 'Inverno 26 — Coleção 02',
-    title: ['Feito', 'na rua.'],
-    text: 'Algodão 300g, modelagem larga e estampas que duram. Peças pensadas pra andar de skate, pegar busão e virar a noite.',
-    products: ['hoodie-heavy-cinza', 'tee-bloco-logo-preta', 'jacket-work-caramelo'],
-    // Vídeo de fundo (opcional). Ex.: '/uploads/hero.mp4' ou um link .mp4. Vazio = usa as fotos dos produtos.
+    kicker: 'Coleção Verão 27',
+    // Título gigante da capa (uma palavra por linha no celular)
+    title: ['Verão', '27'],
+    text: 'Jaqueta track, jorts baggy e jeans de perna larga. A coleção nova chegou com 17 peças.',
+    // Peças que aparecem na frente do título (sem fundo)
+    products: ['track-jacket-verde', 'jorts-baggy-azul-claro', 'cap-trucker-creme'],
+    // Vídeo ou foto de campanha (opcional). Ex.: '/uploads/campanha.mp4'. Vazio = capa com as peças.
     video: '',
     poster: '',
   },
-  dropName: 'DROP 07 — "CONCRETO"',
+  // Atalhos de tendência na home (estilo Carhartt WIP): rótulo, link e peça que ilustra
+  trends: [
+    { label: 'Jorts', href: '/loja?tipo=jorts', slug: 'jorts-baggy-azul-claro' },
+    { label: 'Track', href: '/loja?q=track', slug: 'track-jacket-verde' },
+    { label: 'Jeans baggy', href: '/loja?tipo=jeans', slug: 'jeans-baggy-preto' },
+    { label: 'Várzea', href: '/loja?tipo=jersey', slug: 'jersey-varzea-26' },
+    { label: 'Acessórios', href: '/loja?cat=acessorios', slug: 'oculos-oval-preto' },
+  ],
+  // "Monte o look" da home (estilo Kith): peças vendidas juntas
+  look: {
+    title: 'O look da semana',
+    text: 'Track verde, jorts lavado e trucker. Escolha o tamanho de cada peça e leve o look inteiro.',
+    slugs: ['track-jacket-verde', 'jorts-baggy-azul-claro', 'cap-trucker-creme', 'oculos-oval-preto'],
+    bg: '#c9d4c0',
+  },
+  dropName: 'Drop 07: Concreto',
   collab: {
     title: ['Street Dreams', 'Estúdio X'],
     kicker: 'Collab · edição limitada',
     text: 'Uma cápsula de 4 peças com o estúdio de design que desenha as nossas estampas desde o início. Tiragem única, sem reposição.',
     product: 'hoodie-collab-estudio-x',
   },
-  categoryArt: { roupas: 'hoodie-heavy-marrom', acessorios: 'cap-6panel-preto', skate: 'deck-bloco-82' } as Record<string, string>,
+  categoryArt: { roupas: 'track-jacket-verde', acessorios: 'oculos-oval-preto', skate: 'deck-bloco-82' } as Record<string, string>,
   lookbook: {
-    title: ['Centro', 'de SP.'],
-    season: 'Lookbook · Inverno 26',
+    title: ['Verão', '27'],
+    season: 'Lookbook Verão 27',
     looks: [
-      { title: 'Centro, 06h', caption: 'Moletom Heavyweight + Calça Double Knee', slugs: ['hoodie-heavy-cinza', 'pants-double-knee-bege'], bg: '#d9d4c7' },
-      { title: 'Minhocão', caption: 'Jaqueta Work Canvas + Boné 6 Panel', slugs: ['jacket-work-caramelo', 'cap-6panel-preto'], bg: '#20201e' },
-      { title: 'Praça Roosevelt', caption: 'Camiseta Quebrada Tour + Bermuda Nylon', slugs: ['tee-quebrada-tour', 'shorts-nylon-azul'], bg: '#f1e9d2' },
-      { title: 'Estúdio X', caption: 'Collab completa', slugs: ['hoodie-collab-estudio-x', 'deck-collab-estudio-x'], bg: '#c8102e' },
+      { title: 'Várzea, domingo 9h', caption: 'Camisa Várzea 26 + Jorts Baggy Denim', slugs: ['jersey-varzea-26', 'jorts-baggy-azul-claro'], bg: '#d7dccf' },
+      { title: 'Minhocão, fim de tarde', caption: 'Jaqueta Track Retrô + Calça Jeans Baggy', slugs: ['track-jacket-verde', 'jeans-baggy-preto'], bg: '#1d1d1f' },
+      { title: 'Praça Roosevelt', caption: 'Camiseta Boxy Washed + Shorts Track Nylon', slugs: ['tee-boxy-washed-cinza', 'shorts-track-azul'], bg: '#e6e1d6' },
+      { title: 'Chuva no centro', caption: 'Corta-vento Shell Técnico + Calça Track Nylon', slugs: ['shell-tecnico-areia', 'track-pants-preta'], bg: '#2b3bff' },
     ],
   },
   // Blog: cada matéria vira uma página em /blog/<slug>, com as peças citadas para comprar no final.
@@ -84,11 +101,11 @@ export const site = {
   community: {
     vipGroup: '', // link do grupo VIP do WhatsApp (chat.whatsapp.com/...). Vazio = abre conversa no número da loja
     feed: [
-      { handle: '@cliente.sd', caption: 'Moletom cinza no frio do centro', slug: 'hoodie-heavy-cinza', photo: '', example: true },
+      { handle: '@cliente.sd', caption: 'Jorts na várzea', slug: 'jorts-baggy-azul-claro', photo: '', example: true },
       { handle: '@time.streetdreams', caption: 'Sessão no Anhangabaú', slug: 'pants-double-knee-bege', photo: '', example: true },
       { handle: '@cliente.sd', caption: 'Collab chegou!', slug: 'hoodie-collab-estudio-x', photo: '', example: true },
-      { handle: '@time.streetdreams', caption: 'Jaqueta pra virar a noite', slug: 'jacket-work-caramelo', photo: '', example: true },
-      { handle: '@cliente.sd', caption: 'Boné que não sai da cabeça', slug: 'cap-6panel-preto', photo: '', example: true },
+      { handle: '@time.streetdreams', caption: 'Track verde no Minhocão', slug: 'track-jacket-verde', photo: '', example: true },
+      { handle: '@cliente.sd', caption: 'Trucker que não sai da cabeça', slug: 'cap-trucker-creme', photo: '', example: true },
       { handle: '@time.streetdreams', caption: 'Shape novo, mesma praça', slug: 'deck-bloco-82', photo: '', example: true },
     ],
     videos: [
