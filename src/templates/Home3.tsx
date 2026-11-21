@@ -2,17 +2,20 @@ import Link from 'next/link';
 import { site } from '@/content/site';
 import { getProductsBySlugs, listProducts } from '@/lib/products';
 import { ProductArt } from '@/components/ProductArt';
+import { ShopTheLook } from '@/components/ShopTheLook';
 import { TplGrid } from './client';
 import { Seal } from './Shell';
-import { productHref, vipLink } from './meta';
+import { base, productHref, vipLink } from './meta';
 
 /** TEMPLATE 3 · COMUNIDADE: feed de looks, vídeos curtos, avaliações e grupo VIP */
 export async function Home3() {
   const c = site.community;
-  const [refs, all] = await Promise.all([
+  const [refs, all, lookArr] = await Promise.all([
     getProductsBySlugs([...new Set([...c.feed, ...c.videos].map((x) => x.slug))]),
     listProducts(),
+    getProductsBySlugs(site.look.slugs),
   ]);
+  const look = site.look.slugs.map((s) => lookArr.find((p) => p.slug === s)).filter((p) => !!p);
   const byslug = (s: string) => refs.find((p) => p.slug === s);
   const Vip = ({ label }: { label: string }) => <a className="t3-vip-btn" href={vipLink()} target="_blank" rel="noopener">{label}</a>;
 
@@ -44,6 +47,14 @@ export async function Home3() {
           })}
         </div>
       </section>
+
+      {/* Look montado por cliente, comprável de uma vez (Kith "shop the look") */}
+      {look.length > 0 && (
+        <ShopTheLook base={base(3)} note="look de exemplo" bg="#ffe9d6"
+          title={`Look do ${c.feed[0]?.handle ?? '@cliente'}`}
+          text="Quem é da comunidade monta, a gente coloca aqui. Escolha o tamanho de cada peça e leve o look inteiro."
+          products={look} />
+      )}
 
       <section id="videos" className="tpl-section">
         <h2 className="tpl-h2">Vídeos curtos</h2>
@@ -86,7 +97,7 @@ export async function Home3() {
 
       <section id="vitrine" className="tpl-section">
         <h2 className="tpl-h2">Loja</h2>
-        <TplGrid products={all} n={3} filters={false} />
+        <TplGrid products={all} n={3} filters={false} chips />
       </section>
     </>
   );

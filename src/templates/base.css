@@ -125,3 +125,13 @@
   .tpl-outlet .tpl-shop { padding: 0 32px 48px; }
   .tpl-foot { padding: 48px 32px; }
 }
+
+/* Atalhos por tendência (Carhartt WIP / Baw): rolam de lado no celular */
+.tpl-chips { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 12px; scrollbar-width: none; }
+.tpl-chips::-webkit-scrollbar { display: none; }
+.tpl-chips button { flex-shrink: 0; height: 34px; padding: 0 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--paper); color: var(--ink); font: 600 13px/1 var(--tpl-font, var(--body)); }
+.tpl-chips button.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+/* "Monte o look" dentro dos templates */
+.tpl .stl { --line: var(--line); }
+.tpl .stl .tpl-example { position: static; }
+.tpl .stl .select { background: var(--paper); color: var(--ink); }

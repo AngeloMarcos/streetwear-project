@@ -8,7 +8,8 @@ import { useCart } from './CartProvider';
 import { ProductArt } from './ProductArt';
 
 /** "Monte o look" (Kith): composição das peças + lista com tamanho e um botão que leva tudo */
-export function ShopTheLook({ title, text, bg, products }: { title: string; text: string; bg: string; products: ProductDTO[] }) {
+/** base: prefixo dos links de produto (ex.: '/template-3'), para os templates levarem à própria página de produto */
+export function ShopTheLook({ title, text, bg, products, base = '', note }: { title: string; text: string; bg: string; products: ProductDTO[]; base?: string; note?: string }) {
   const { add, setOpen, toast } = useCart();
   const firstFree = (p: ProductDTO) => (p.sizes.length === 1 ? p.sizes[0].available ? p.sizes[0].id : '' : '');
   const [picked, setPicked] = useState<Record<string, string>>(() => Object.fromEntries(products.map((p) => [p.id, firstFree(p)])));
@@ -25,13 +26,14 @@ export function ShopTheLook({ title, text, bg, products }: { title: string; text
     <section className="stl">
       <div className="stl__stage" style={{ background: bg }}>
         {products.map((p, i) => (
-          <Link key={p.id} href={`/produto/${p.slug}`} className={`stl__piece stl__piece--${i}`} aria-label={p.name}>
+          <Link key={p.id} href={`${base}/produto/${p.slug}`} className={`stl__piece stl__piece--${i}`} aria-label={p.name}>
             <ProductArt product={p} bare />
             <span className="stl__pin">{i + 1}</span>
           </Link>
         ))}
       </div>
       <div className="stl__panel">
+        {note && <span className="tpl-example" style={{ width: 'fit-content' }}>{note}</span>}
         <h2 className="section__title">{title}</h2>
         <p className="muted">{text}</p>
         <ol className="stl__list">
@@ -40,7 +42,7 @@ export function ShopTheLook({ title, text, bg, products }: { title: string; text
             return (
               <li key={p.id}>
                 <span className="stl__n">{i + 1}</span>
-                <Link href={`/produto/${p.slug}`} className="stl__name">{p.name}<span className="muted small">{p.colorName}</span></Link>
+                <Link href={`${base}/produto/${p.slug}`} className="stl__name">{p.name}<span className="muted small">{p.colorName}</span></Link>
                 <span className="stl__price">{money(p.priceCents)}</span>
                 {out ? <span className="small muted">Esgotado</span> : p.sizes.length > 1 ? (
                   <select className="select" aria-label={`Tamanho de ${p.name}`} value={picked[p.id]} onChange={(e) => setPicked({ ...picked, [p.id]: e.target.value })}>

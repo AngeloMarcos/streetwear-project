@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import type { ProductDTO } from '@/lib/products';
 import { money, pixPrice } from '@/lib/pricing';
 import { site } from '@/content/site';
+import { CATEGORIES, TYPES } from '@/lib/config';
 import { useCart } from '@/components/CartProvider';
 import { ProductArt } from '@/components/ProductArt';
 import { TEMPLATES, base, brandOf, productHref, type TplN } from './meta';
@@ -76,7 +77,7 @@ const PRICES: [string, (c: number) => boolean][] = [
 ];
 
 /** Vitrine com busca e filtros (marca, tamanho, preço) fixos no topo */
-export function TplGrid({ products, n, filters = true }: { products: ProductDTO[]; n: TplN; filters?: boolean }) {
+export function TplGrid({ products, n, filters = true, chips = false }: { products: ProductDTO[]; n: TplN; filters?: boolean; chips?: boolean }) {
   const [q, setQ] = useState('');
   const [brand, setBrand] = useState('');
   const [size, setSize] = useState('');
@@ -85,7 +86,7 @@ export function TplGrid({ products, n, filters = true }: { products: ProductDTO[
   const sizes = useMemo(() => [...new Set(products.flatMap((p) => p.sizes.map((s) => s.size)))], [products]);
   const list = products.filter((p) => {
     const term = q.trim().toLowerCase();
-    if (term && !`${p.name} ${p.colorName}`.toLowerCase().includes(term)) return false;
+    if (term && !`${p.name} ${p.colorName} ${TYPES[p.type]?.plural ?? ''} ${CATEGORIES[p.category] ?? ''}`.toLowerCase().includes(term)) return false;
     if (brand && brandOf(p) !== brand) return false;
     if (size && !p.sizes.some((s) => s.size === size && s.available)) return false;
     return PRICES[price][1](p.priceCents);
@@ -94,6 +95,14 @@ export function TplGrid({ products, n, filters = true }: { products: ProductDTO[
 
   return (
     <div className="tpl-shop">
+      {chips && (
+        <div className="tpl-chips" aria-label="Atalhos por tendência">
+          <button className={q === '' ? 'is-on' : ''} onClick={() => setQ('')}>Tudo</button>
+          {site.trends.map((t) => (
+            <button key={t.label} className={q === t.label ? 'is-on' : ''} onClick={() => setQ(q === t.label ? '' : t.label)}>{t.label}</button>
+          ))}
+        </div>
+      )}
       {filters && (
         <div className="tpl-filters" role="search">
           <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar produto ou cor" aria-label="Buscar" />

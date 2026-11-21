@@ -39,3 +39,23 @@
 .t2 .tpl-outlet__head > * { background: none; color: #ece9e1; padding: 0; }
 
 @media (min-width: 960px) { .t2-hero__txt, .t2-look__cap { padding: 48px 32px; } }
+
+/* Títulos pesados (Palace) */
+.t2 h1, .t2 h2, .t2 .tpl-h2, .t2 .tpl-logo { font-weight: 800; font-stretch: 112%; letter-spacing: -.02em; }
+
+/* Lista do drop da semana (Supreme) */
+.t2-droplist__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 16px; }
+.t2-droplist__head p { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }
+.t2-droplist ul { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; }
+.t2-droplist li { display: grid; gap: 4px; font-size: 12px; }
+.t2-droplist li b { text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+.t2-droplist li span:last-child { color: var(--muted); }
+.t2-droplist__img { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--paper-2); display: block; }
+.t2-droplist__img .art { position: absolute; inset: 0; }
+.t2-droplist__img::after { content: attr(data-when); position: absolute; left: 8px; bottom: 8px; background: var(--accent); color: #000; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 3px 6px; }
+
+/* Vitrine densa (Supreme): muitas peças, pouca informação */
+.t2 #vitrine .tpl-grid { gap: 20px 8px; }
+.t2 #vitrine .tpl-card__meta { display: none; }
+@media (min-width: 760px) { .t2-droplist ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .t2 #vitrine .tpl-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }

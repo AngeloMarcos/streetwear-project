@@ -32,3 +32,11 @@
 
 @media (min-width: 640px) { .t1-bf { grid-template-columns: 1fr auto; align-items: center; } .t1-deals { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 1200px) { .t1 .tpl-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } .t1-bf { padding: 20px 32px; } .t1-perks { padding: 12px 32px; } }
+
+/* Top 5 com número grande (Approve / Baw) */
+.t1-top { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: 62%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.t1-top::-webkit-scrollbar { display: none; }
+.t1-top li { position: relative; scroll-snap-align: start; min-width: 0; }
+.t1-top__n { position: absolute; z-index: 3; left: 6px; bottom: 64px; font: 900 italic 84px/1 var(--tpl-font); color: var(--ink); -webkit-text-stroke: 3px #fff; paint-order: stroke; pointer-events: none; }
+.t1 .tpl-chips button.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+@media (min-width: 640px) { .t1-top { grid-auto-columns: calc((100% - 40px) / 5); } }

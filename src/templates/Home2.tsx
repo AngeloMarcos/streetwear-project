@@ -33,6 +33,25 @@ export async function Home2() {
         </div>
       </section>
 
+      {/* Lista do drop da semana (Supreme: o que sai quinta, peça por peça) */}
+      {drop && (
+        <section className="tpl-section t2-droplist">
+          <div className="t2-droplist__head">
+            <h2 className="tpl-h2">Esta semana</h2>
+            <p>{drop.at.toLocaleString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })} · {drop.items.length} peças</p>
+          </div>
+          <ul>
+            {drop.items.map((p) => (
+              <li key={p.id}>
+                <span className="t2-droplist__img" data-when={drop.at.toLocaleString('pt-BR', { weekday: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}><ProductArt product={p} blur /></span>
+                <b>{p.name}</b>
+                <span>{p.colorName} · {p.sizes.map((x) => x.size).join(' / ')}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <div id="looks">
         {site.lookbook.looks.map((l, i) => {
           const items = l.slugs.map((s) => looksProducts.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => !!p);
@@ -41,7 +60,7 @@ export async function Home2() {
             <section key={l.title} className="t2-look" style={{ background: l.bg }}>
               <div className="t2-look__art">{items.map((p) => <ProductArt key={p.id} product={{ ...p, bg: l.bg }} view={(i % 2) as 0 | 1} />)}</div>
               <div className="t2-look__cap">
-                <span>Look {String(i + 1).padStart(2, '0')}</span>
+                <span>{site.lookbook.season} · {i + 1}/{site.lookbook.looks.length}</span>
                 <h2>{l.title}</h2>
                 <div>{items.map((p) => <Link key={p.id} href={productHref(2, p.slug)}>{p.name} →</Link>)}</div>
               </div>
@@ -51,7 +70,7 @@ export async function Home2() {
       </div>
 
       <section id="vitrine" className="tpl-section">
-        <h2 className="tpl-h2">Coleção</h2>
+        <h2 className="tpl-h2">Coleção {site.hero.title.join(' ')}</h2>
         <TplGrid products={all} n={2} filters={false} />
       </section>
     </>
