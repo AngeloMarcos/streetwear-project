@@ -85,7 +85,8 @@ cd /opt/bloco && git pull && docker compose up -d --build
 ```bash
 crontab -e
 # adicione:
-0 4 * * * cd /opt/bloco && sh scripts/backup.sh >> backups/backup.log 2>&1
+40 3 * * * cd /opt/bloco && sh scripts/backup.sh >> backups/backup.log 2>&1
+*/2 * * * * cd /opt/bloco && sh scripts/watchdog.sh >> backups/watchdog.log 2>&1
 ```
 Copie a pasta `backups/` para fora da VPS de tempos em tempos.
 
