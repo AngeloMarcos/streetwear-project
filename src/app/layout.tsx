@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import './globals.css';
 import './verao27.css';
 import './bf27.css';
+import './home.css';
 import { CartProvider } from '@/components/CartProvider';
 import { CartDrawer } from '@/components/CartDrawer';
 import { Header, Logo } from '@/components/Header';

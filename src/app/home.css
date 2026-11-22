@@ -1,0 +1,22 @@
+/* ===== Home "Outlet direto" (Verão 27) ===== */
+
+/* Top 5 da semana: número gigante atrás de cada card */
+.top5 { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; counter-reset: none; }
+.top5 li { display: grid; align-content: start; }
+.top5__n { display: block; margin: 0 0 10px -2px; font: 800 clamp(56px, 6vw, 96px)/.78 var(--display); font-stretch: 125%; letter-spacing: -.04em; color: var(--accent); }
+
+/* Atalhos por tendência acima da vitrine */
+.home-trends { display: flex; gap: 6px; flex-wrap: wrap; margin: -4px 0 20px; }
+.home-trends a { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; transition: border-color .2s, background .2s, color .2s; }
+.home-trends a:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+@media (max-width: 1024px) {
+  .top5 { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter); }
+  .top5::-webkit-scrollbar { display: none; }
+  .top5 li { flex: 0 0 42%; scroll-snap-align: start; }
+}
+@media (max-width: 760px) {
+  .top5 li { flex-basis: 64%; }
+  .home-trends { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(var(--gutter) * -1); }
+  .home-trends::-webkit-scrollbar { display: none; }
+}

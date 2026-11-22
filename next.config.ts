@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: { bodySizeLimit: '8mb' }, // upload de fotos no admin
   },
+  // os templates de apresentação saíram do ar: links antigos caem na home
+  async redirects() {
+    return [
+      { source: '/template-:n(1|2|3)', destination: '/', permanent: false },
+      { source: '/template-:n(1|2|3)/produto/:slug', destination: '/produto/:slug', permanent: false },
+      { source: '/template-:n(1|2|3)/:path*', destination: '/', permanent: false },
+    ];
+  },
   async headers() {
     return [
       {
