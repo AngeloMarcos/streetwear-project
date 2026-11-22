@@ -1,0 +1,98 @@
+/* ============ Black Friday (Verão 27) ============
+   Prévia: bloco laranja da promoção. Valendo: fundo preto com o % em laranja. */
+.bfx { --bfx-bg: var(--sale); --bfx-ink: #fff; --bfx-num: #111; background: var(--bfx-bg); color: var(--bfx-ink); overflow: hidden; position: relative; }
+.bfx--live { --bfx-bg: #0b0b0b; --bfx-num: var(--sale); }
+.bfx__tape { display: flex; width: max-content; white-space: nowrap; background: #0b0b0b; color: #fff; font: 800 13px/1 var(--display); font-stretch: 118%; letter-spacing: .04em; padding: 10px 0; animation: bf-scroll 28s linear infinite; }
+.bfx--live .bfx__tape { background: var(--sale); }
+.bfx__tape > span { display: flex; }
+.bfx__tape span span { display: inline-flex; align-items: center; gap: 18px; padding-right: 18px; }
+.bfx__tape i { font-style: normal; opacity: .6; }
+.bfx__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; padding: clamp(28px, 5vw, 64px) var(--gutter); min-height: 560px; align-items: center; }
+.bfx--compact .bfx__inner { min-height: 480px; }
+.bfx__copy { display: grid; gap: 18px; justify-items: start; position: relative; z-index: 2; }
+.bfx__kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .16); font-size: 13px; font-weight: 600; }
+.bfx--live .bfx__kicker { background: var(--sale); }
+.bfx__dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: bfx-pulse 1.4s ease-in-out infinite; }
+@keyframes bfx-pulse { 50% { opacity: .25; } }
+.bfx .bfx__title { font-family: var(--display); font-weight: 800; font-stretch: 125%; text-transform: uppercase; font-size: clamp(56px, 8.4vw, 150px); line-height: .84; letter-spacing: -.02em; margin: 0; }
+.bfx--compact .bfx__title { font-size: clamp(52px, 7vw, 120px); }
+.bfx__text { max-width: 400px; font-size: 16px; opacity: .92; }
+.bfx__clock { display: grid; gap: 8px; }
+.bfx__clock > span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+.bfx .countdown div { background: #fff; color: #111; border-radius: 12px; min-width: 70px; padding: 10px 10px 8px; }
+.bfx--live .countdown div { background: #1d1d1d; color: #fff; }
+.bfx .countdown b { font-size: clamp(26px, 3vw, 40px); }
+.bfx__cta { width: 100%; }
+.bfx__form { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; max-width: 440px; }
+.bfx__form input { flex: 1; min-width: 0; height: 50px; padding: 0 18px; border-radius: 999px; border: 1.5px solid rgba(255, 255, 255, .7); background: rgba(255, 255, 255, .12); color: #fff; font-size: 15px; }
+.bfx__form input::placeholder { color: rgba(255, 255, 255, .85); }
+.bfx__form input:focus { outline: none; border-color: #fff; background: rgba(255, 255, 255, .2); }
+.bfx__form button { height: 50px; padding: 0 24px; border-radius: 999px; border: 0; background: #111; color: #fff; font-weight: 700; white-space: nowrap; }
+.bfx__form button:hover { background: #fff; color: #111; }
+.bfx__form p { flex-basis: 100%; color: #fff; }
+
+.bfx__stage { position: relative; height: 100%; min-height: 440px; }
+.bfx__pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; margin: 0; color: var(--bfx-num); font-family: var(--display); font-weight: 800; font-stretch: 125%; line-height: .8; pointer-events: none; }
+.bfx__pct span { font-size: clamp(160px, 21vw, 340px); letter-spacing: -.05em; }
+.bfx__pct sup { font-size: clamp(56px, 7vw, 110px); align-self: flex-start; margin-top: 4%; }
+.bfx__pct small { position: absolute; font-size: clamp(16px, 1.6vw, 22px); font-stretch: 118%; text-transform: uppercase; letter-spacing: .04em; color: var(--bfx-ink); }
+.bfx__pct small:first-child { top: 8%; left: 30%; }
+.bfx__pct .bfx__off { bottom: 6%; left: 42%; }
+.bfx__piece { position: absolute; display: block; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .25)); transition: transform .35s ease; }
+.bfx__piece svg, .bfx__piece img { width: 100%; height: auto; display: block; }
+.bfx__piece--0 { width: 28%; left: -2%; bottom: -2%; transform: rotate(-8deg); }
+.bfx__piece--1 { width: 22%; left: 2%; top: -2%; transform: rotate(7deg); }
+.bfx__piece--2 { width: 20%; right: 2%; bottom: -6%; transform: rotate(-3deg); }
+.bfx__piece:hover { transform: rotate(0) scale(1.04); }
+.bfx__sticker { position: absolute; top: 8%; right: 6%; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #fff; color: var(--sale); font: 800 17px/1 var(--display); font-stretch: 112%; transform: rotate(12deg); box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }
+.bfx--live .bfx__sticker { background: var(--sale); color: #fff; }
+
+/* página da Black Friday: faixas de desconto da prévia */
+.bfx-tiers { display: flex; gap: 6px; flex-wrap: wrap; }
+.bfx-tiers a { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 8px 0 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.bfx-tiers a:hover { border-color: var(--sale); color: var(--sale); }
+.bfx-tiers a span { min-width: 22px; height: 22px; padding: 0 6px; display: grid; place-items: center; border-radius: 999px; background: var(--paper-2); font-size: 12px; color: var(--ink); }
+.bfx-lead { margin: -4px 0 28px; }
+.bfx-tier { scroll-margin-top: calc(var(--header-h) + 24px); }
+.bfx-tier + .bfx-tier { margin-top: 48px; }
+.bfx-tier__title { display: flex; align-items: baseline; gap: 12px; font-size: 15px; font-weight: 600; color: var(--muted); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.bfx-tier__title span { font: 800 clamp(34px, 4vw, 52px)/1 var(--display); font-stretch: 122%; color: var(--sale); letter-spacing: -.02em; }
+.bf-note { background: #fff4ef; color: #111; border: 1px solid #ffd2c2; border-radius: 12px; padding: 10px 14px; font-size: 13px; }
+.bf-note b, .bf-note a { color: var(--sale); }
+.bf-preview .bf-note { display: flex; border: 0; align-items: center; gap: 6px; background: var(--sale); color: #fff; border-radius: 999px; padding: 7px 7px 7px 14px; font-size: 13px; }
+.bf-preview .bf-note b { color: #fff; font-weight: 800; }
+.bf-preview .bf-note span { margin-left: auto; background: #fff; color: var(--sale); border-radius: 999px; padding: 3px 8px; font-weight: 800; font-size: 12px; }
+
+/* pop-up de captura: claro, com a cor da promoção */
+.popup { background: #fff; color: #111; border: 1px solid var(--line); }
+.popup .mono { justify-self: start; background: var(--sale); color: #fff; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.popup__close { color: #111; }
+.popup__close:hover { background: var(--paper-2); }
+.popup .small { color: var(--muted); }
+.popup__form input { border: 1px solid var(--line); border-radius: 999px; color: #111; padding: 0 16px; }
+.popup__form input:focus { outline: none; border-color: #111; }
+.popup__form button { border-radius: 999px; background: #111; color: #fff; }
+
+@media (max-width: 1024px) {
+  .bfx__inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .bfx__stage { min-height: 0; height: 64vw; max-height: 520px; order: -1; }
+}
+@media (max-width: 760px) {
+  .bfx__inner { gap: 8px; padding-top: 16px; }
+  .bfx__stage { height: 78vw; }
+  .bfx__pct span { font-size: 42vw; }
+  .bfx__pct sup { font-size: 13vw; margin-top: 10%; }
+  .bfx__pct small:first-child { top: 6%; left: 36%; }
+  .bfx__pct .bfx__off { bottom: 4%; left: 40%; }
+  .bfx__piece--0 { width: 34%; left: -4%; bottom: -4%; }
+  .bfx__piece--1 { width: 28%; left: 0; top: 0; }
+  .bfx__piece--2 { width: 24%; right: 0; bottom: -6%; }
+  .bfx__sticker { width: 40px; height: 40px; font-size: 12px; top: 4%; right: 0; }
+  .bfx .bfx__title { font-size: 16vw; }
+  .bfx__form { flex-direction: column; }
+  .bfx__form button { width: 100%; }
+  .bfx .countdown { width: 100%; }
+  .bfx .countdown div { min-width: 0; flex: 1; }
+  .bfx__cta .btn { width: 100%; }
+  .bfx-tiers { flex-wrap: nowrap; overflow-x: auto; width: 100%; }
+}

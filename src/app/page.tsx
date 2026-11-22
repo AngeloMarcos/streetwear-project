@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { site } from '@/content/site';
-import { getBf, getProductsBySlugs, getUpcomingDrop, listBestSellers, listProducts } from '@/lib/products';
+import { getBf, getProductsBySlugs, getUpcomingDrop, listBestSellers, listBlackFriday, listProducts } from '@/lib/products';
 import { shopConfig } from '@/lib/config';
 import { money } from '@/lib/pricing';
-import { BlackFridayBanner } from '@/components/BlackFridayBanner';
+import { BlackFridayBanner, bfPieces } from '@/components/BlackFridayBanner';
 import { ProductArt } from '@/components/ProductArt';
 import { ProductCard } from '@/components/ProductCard';
 import { Countdown } from '@/components/Countdown';
@@ -11,7 +11,7 @@ import { EmailForm } from '@/components/Forms';
 import { ShopTheLook } from '@/components/ShopTheLook';
 
 export default async function Home() {
-  const [heroPicks, newIn, drop, trendArt, lookArr, collabArr, bf, best] = await Promise.all([
+  const [heroPicks, newIn, drop, trendArt, lookArr, collabArr, bf, best, bfList] = await Promise.all([
     getProductsBySlugs(site.hero.products),
     listProducts({ tags: { has: 'novo' }, NOT: { tags: { has: 'drop' } } }, 10),
     getUpcomingDrop(),
@@ -20,14 +20,16 @@ export default async function Home() {
     getProductsBySlugs([site.collab.product]),
     getBf(),
     listBestSellers(4),
+    listBlackFriday(),
   ]);
+  const bfArt = bfPieces(bfList);
   const collab = collabArr[0];
   const pick = (slugs: string[]) => slugs.map((s) => heroPicks.find((p) => p.slug === s)).filter((p) => !!p);
   const look = site.look.slugs.map((s) => lookArr.find((p) => p.slug === s)).filter((p) => !!p);
 
   return (
     <>
-      {bf.phase === 'live' && <BlackFridayBanner bf={bf} />}
+      {bf.phase === 'live' && <BlackFridayBanner bf={bf} pieces={bfArt} compact />}
 
       {/* Capa: título gigante com as peças na frente (Palace/High: a peça é a campanha) */}
       <section className="cover">
@@ -60,7 +62,7 @@ export default async function Home() {
         <li><b>Troca grátis</b><span>em até 30 dias</span></li>
       </ul>
 
-      {bf.phase === 'teaser' && <BlackFridayBanner bf={bf} />}
+      {bf.phase === 'teaser' && <BlackFridayBanner bf={bf} pieces={bfArt} compact />}
 
       {/* Novidades em trilho (Kith / Stüssy) */}
       <section className="section">
