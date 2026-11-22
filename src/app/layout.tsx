@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, Geist, JetBrains_Mono } from 'next/font/google';
+import { Archivo, Geist, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import './globals.css';
 import './verao27.css';
 import './bf27.css';
 import './home.css';
+import './editorial.css';
 import { CartProvider } from '@/components/CartProvider';
 import { CartDrawer } from '@/components/CartDrawer';
 import { Header, Logo } from '@/components/Header';
@@ -13,7 +14,7 @@ import { SignupPopup, WhatsAppButton } from '@/components/Extras';
 import { SiteChrome } from '@/components/SiteChrome';
 import { shopConfig, siteUrl } from '@/lib/config';
 import { site } from '@/content/site';
-import { getBf, getProductsBySlugs } from '@/lib/products';
+import { getBf } from '@/lib/products';
 
 // Todas as páginas leem estoque/preço do banco a cada acesso
 export const dynamic = 'force-dynamic';
@@ -21,6 +22,8 @@ export const dynamic = 'force-dynamic';
 // Archivo larga (expanded) nos títulos, Geist no texto
 const archivo = Archivo({ subsets: ['latin'], axes: ['wdth'], variable: '--font-archivo' });
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
+// serifa dos títulos de campanha (Kith)
+const serif = Instrument_Serif({ weight: '400', style: ['normal', 'italic'], subsets: ['latin'], variable: '--font-serif' });
 const mono = JetBrains_Mono({ weight: '500', subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
@@ -33,8 +36,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: '#ffffff' };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [bf, catArt] = await Promise.all([getBf(), getProductsBySlugs(Object.values(site.categoryArt))]);
-  const menuArt = Object.fromEntries(Object.entries(site.categoryArt).map(([cat, slug]) => [cat, catArt.find((p) => p.slug === slug)]));
+  const bf = await getBf();
   const list = bf.phase === 'live'
     ? [`BLACK FRIDAY · ATÉ ${bf.maxPercent}% OFF`, `SÓ ATÉ ${bf.endLabel}`, ...site.announcements]
     : bf.phase === 'teaser'
@@ -42,15 +44,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       : site.announcements;
   const ann = [...list, ...list];
   return (
-    <html lang="pt-BR" className={`${archivo.variable} ${geist.variable} ${mono.variable}`}>
+    <html lang="pt-BR" className={`${archivo.variable} ${geist.variable} ${serif.variable} ${mono.variable}`}>
       <body>
         <CartProvider config={shopConfig}>
           <SiteChrome>
           <div className={`announce ${bf.phase === 'live' ? 'announce--bf' : ''}`} aria-label="Avisos">
             <div className="announce__track">{ann.map((a, i) => <span key={i}>{a}</span>)}</div>
           </div>
-          <Suspense fallback={<header className="header" />}>
-            <Header blackFriday={bf.phase !== 'off'} menuArt={menuArt} />
+          <Suspense fallback={<header className="pill" />}>
+            <Header blackFriday={bf.phase !== 'off'} />
           </Suspense>
           </SiteChrome>
           <main id="conteudo">{children}</main>

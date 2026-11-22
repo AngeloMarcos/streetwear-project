@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import type { ProductDTO } from '@/lib/products';
-import { CATEGORIES } from '@/lib/config';
 import { money, pixPrice } from '@/lib/pricing';
 import { ProductArt } from './ProductArt';
 import { useCart } from './CartProvider';
@@ -17,8 +16,6 @@ export function ProductCard({ p }: { p: ProductDTO }) {
         <div className="badges">
           {p.offPercent > 0 && <span className="badge badge--bf">−{p.offPercent}%</span>}
           {soldOut && <span className="badge badge--dark">Esgotado</span>}
-          {!soldOut && p.tags.includes('novo') && <span className="badge badge--accent">Novo</span>}
-          {p.tags.includes('collab') && <span className="badge badge--dark">Collab</span>}
           {!soldOut && available < p.sizes.length && <span className="badge">Últimas peças</span>}
         </div>
         <ProductArt product={p} />
@@ -32,8 +29,12 @@ export function ProductCard({ p }: { p: ProductDTO }) {
         </div>
       )}
       <div>
-        <Link href={`/produto/${p.slug}`} className="card__name">{p.name}</Link>
-        <div className="card__meta">{p.colorName} · {CATEGORIES[p.category] ?? ''}</div>
+        <Link href={`/produto/${p.slug}`} className="card__name">
+          {p.name}
+          {!soldOut && p.tags.includes('novo') && <span className="card__new"> Novo</span>}
+          {p.tags.includes('collab') && <span className="card__new card__new--collab"> Collab</span>}
+        </Link>
+        <div className="card__meta">{p.colorName}</div>
       </div>
       <div>
         {p.offPercent > 0 && <><s className="price-old">{money(p.fullPriceCents)}</s>{' '}</>}

@@ -1,76 +1,111 @@
 import Link from 'next/link';
 import { site } from '@/content/site';
-import { getBf, listBestSellers, listBlackFriday, listProducts } from '@/lib/products';
-import { shopConfig } from '@/lib/config';
-import { money } from '@/lib/pricing';
-import { BlackFridayBanner, bfPieces } from '@/components/BlackFridayBanner';
+import { getBf, getProductsBySlugs, getUpcomingDrop, listBestSellers, listBlackFriday, listProducts } from '@/lib/products';
+import { Campaign, ProductStrip } from '@/components/Campaign';
+import { Countdown } from '@/components/Countdown';
+import { Dateline } from '@/components/Dateline';
 import { ProductCard } from '@/components/ProductCard';
-import { ShopGrid } from '@/components/ShopGrid';
 import { EmailForm } from '@/components/Forms';
 
-/** Home "Outlet direto" (escolhida a partir do Template 1): oferta e vitrine primeiro, no visual Verão 27 */
+/** Home editorial (Kith / Noah / Aimé Leon Dore / Palace): campanhas em tela cheia, cada uma com a sua faixa de peças */
 export default async function Home() {
-  const [bf, all, deals, top] = await Promise.all([getBf(), listProducts(), listBlackFriday(), listBestSellers(5)]);
+  const c = site.campaigns;
+  const [bf, newIn, deals, drop, collab, best, all] = await Promise.all([
+    getBf(),
+    listProducts({ tags: { has: 'novo' }, NOT: { tags: { has: 'drop' } } }, 10),
+    listBlackFriday(),
+    getUpcomingDrop(),
+    listProducts({ tags: { has: 'collab' } }, 6),
+    listBestSellers(6),
+    listProducts(undefined, 18),
+  ]);
+  const bfOn = bf.phase !== 'off';
   const live = bf.phase === 'live';
-  const teaser = bf.phase === 'teaser';
 
   return (
-    <>
-      {bf.phase !== 'off' && <BlackFridayBanner bf={bf} pieces={bfPieces(deals)} compact />}
+    <div className="ed-home">
+      <Dateline />
 
-      <ul className="perks" aria-label="Vantagens">
-        <li><b>{shopConfig.pixDiscountPercent}% off no Pix</b><span>desconto na hora</span></li>
-        <li><b>Até {shopConfig.maxInstallments}x sem juros</b><span>no cartão de crédito</span></li>
-        <li><b>Frete grátis</b><span>acima de {money(shopConfig.freeShippingCents)}</span></li>
-        <li><b>Troca grátis</b><span>em até 30 dias</span></li>
-      </ul>
-
-      {/* Ofertas: valendo = preço já com desconto; prévia = mostra o preço de sexta */}
-      {(live || teaser) && deals.length > 0 && (
-        <section className="section">
-          <div className="section__head">
-            <h2 className="section__title">{live ? 'Ofertas do dia' : 'Preço de Black Friday'}</h2>
-            <Link className="link-arrow" href="/black-friday">{live ? 'Ver todas as ofertas' : 'Ver a prévia completa'}</Link>
-          </div>
-          <div className="grid">
-            {deals.slice(0, 4).map((p) => (
-              <div key={p.id} className="bf-preview">
-                <ProductCard p={p} />
-                {teaser && <p className="bf-note">Sexta: <b>{money(Math.round(p.fullPriceCents * (1 - p.bfPercent / 100)))}</b><span>−{p.bfPercent}%</span></p>}
-              </div>
-            ))}
-          </div>
-        </section>
+      {bfOn && (
+        <>
+          <Campaign
+            first
+            img={c.blackFriday.img}
+            focus={c.blackFriday.focus}
+            alt={c.blackFriday.alt}
+            kicker={live ? `Valendo até ${bf.endLabel} às 23h59` : `${bf.startLabel} a ${bf.endLabel}`}
+            title="Black Friday"
+            text={`Até ${bf.maxPercent}% off na loja toda, sem cupom. ${live ? 'O desconto já está no preço.' : 'Os preços caem na sexta à 0h.'}`}
+            extra={<div className="camp__clock"><span>{live ? 'Acaba em' : 'Começa em'}</span><Countdown to={live ? bf.end : bf.start} /></div>}
+            actions={[{ href: '/black-friday', label: live ? 'Ver as ofertas' : 'Ver a prévia' }]}
+          />
+          <ProductStrip title={live ? 'Ofertas' : 'Na Black Friday'} href="/black-friday" products={deals.slice(0, 6)} />
+        </>
       )}
 
-      {/* Top 5 com número grande (Approve / Baw) */}
-      {top.length > 0 && (
-        <section className="section">
-          <div className="section__head"><h2 className="section__title">Top 5 da semana</h2></div>
-          <ol className="top5">
-            {top.map((p, i) => <li key={p.id}><span className="top5__n" aria-hidden>{i + 1}</span><ProductCard p={p} /></li>)}
-          </ol>
-        </section>
-      )}
+      <Campaign
+        first={!bfOn}
+        img={c.verao.img}
+        focus={c.verao.focus}
+        alt={c.verao.alt}
+        kicker={c.verao.kicker}
+        title={c.verao.title}
+        text={c.verao.text}
+        actions={[{ href: '/loja?tag=novo', label: 'Comprar' }, { href: '/lookbook', label: 'Lookbook' }]}
+      />
+      <ProductStrip title="Chegou agora" href="/loja?tag=novo" products={newIn} />
 
-      {/* Vitrine completa com atalhos por tendência (Carhartt WIP) e filtros */}
-      <section className="section" id="vitrine">
-        <div className="section__head"><h2 className="section__title">Todos os produtos</h2></div>
-        <nav className="home-trends" aria-label="Comprar por tendência">
-          {site.trends.map((t) => <Link key={t.label} href={t.href}>{t.label}</Link>)}
-          <Link href="/loja?tag=novo">Verão 27</Link>
-          <Link href="/loja?tag=collab">Collabs</Link>
-        </nav>
-        <ShopGrid products={all} />
+      <Campaign
+        img={c.drop.img}
+        focus={c.drop.focus}
+        alt={c.drop.alt}
+        kicker={drop ? `Próximo drop · ${drop.at.toLocaleString('pt-BR', { weekday: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}` : c.drop.kicker}
+        title={site.dropName}
+        text={c.drop.text}
+        extra={drop ? <div className="camp__clock"><span>Libera em</span><Countdown to={drop.at.toISOString()} /></div> : undefined}
+        actions={[{ href: '/drop', label: drop ? 'Ver a prévia' : 'Ver o drop' }]}
+      />
+
+      <Campaign
+        img={c.collab.img}
+        focus={c.collab.focus}
+        alt={c.collab.alt}
+        kicker={site.collab.kicker}
+        title={`${site.collab.title[0]} × ${site.collab.title[1]}`}
+        text={site.collab.text}
+        actions={[{ href: '/collabs', label: 'Comprar a collab' }, { href: '/blog/bastidores-collab-estudio-x', label: 'Bastidores' }]}
+      />
+      <ProductStrip title="A collab" href="/collabs" products={collab} />
+
+      <Campaign
+        img={c.lookbook.img}
+        focus={c.lookbook.focus}
+        alt={c.lookbook.alt}
+        kicker={c.lookbook.kicker}
+        title={c.lookbook.title}
+        text={c.lookbook.text}
+        actions={[{ href: '/lookbook', label: 'Ver o lookbook' }]}
+      />
+      <ProductStrip title="Mais vendidos" href="/loja" products={best} />
+
+      {/* Loja em grade densa (Palace) */}
+      <section className="ed-shop">
+        <div className="strip__head"><h3>Loja</h3><Link href="/loja">Ver tudo</Link></div>
+        <div className="ed-grid">{all.map((p) => <ProductCard key={p.id} p={p} />)}</div>
       </section>
 
-      <section className="section newsletter">
-        <div>
-          <h2 className="section__title" style={{ color: '#fff' }}>Entra na lista.</h2>
-          <p style={{ color: '#c9ccff', marginTop: 8 }}>Aviso de drop e de promoção 1h antes de todo mundo.</p>
-        </div>
+      {/* Valores (Noah), em texto pequeno */}
+      <section className="ed-values" aria-label="Como a gente faz">
+        <div><b>Algodão 300g</b><p>Camisetas e moletons com quase o dobro do peso comum.</p></div>
+        <div><b>Feito em São Paulo</b><p>Costura, estampa e lavagem em oficinas da cidade.</p></div>
+        <div><b>Tiragem curta</b><p>Drop toda quinta. Quando acaba, acaba.</p></div>
+        <div><b>Troca sem drama</b><p>30 dias pra trocar, tudo pelo WhatsApp.</p></div>
+      </section>
+
+      <section className="ed-news">
+        <p>Lista de e-mail: aviso de drop 1h antes de todo mundo.</p>
         <EmailForm source="newsletter" placeholder="seu@email.com" button="Assinar" />
       </section>
-    </>
+    </div>
   );
 }

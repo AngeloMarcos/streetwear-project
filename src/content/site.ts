@@ -30,6 +30,25 @@ export const site = {
     slugs: ['track-jacket-verde', 'jorts-baggy-azul-claro', 'cap-trucker-creme', 'oculos-oval-preto'],
     bg: '#c9d4c0',
   },
+  // Campanhas da home (estilo Kith/Noah): foto em tela cheia, título pequeno e a faixa de peças embaixo.
+  // Fotos em /public/campanha. Troque pelas fotos reais quando tiver (mesmo nome de arquivo ou outro caminho).
+  campaigns: {
+    blackFriday: { img: '/campanha/black-friday.jpg', focus: '68% center', alt: 'Rapaz de puffer preta sentado numa mureta no centro de São Paulo à noite' },
+    verao: {
+      img: '/campanha/verao-27.jpg', focus: '45% center', alt: 'Dois amigos no Minhocão com jaqueta track verde, jorts e boné trucker',
+      kicker: 'Coleção Verão 27', title: 'Verão 27',
+      text: 'Jaqueta track, jorts baggy e jeans de perna larga. 17 peças novas.',
+    },
+    drop: {
+      img: '/campanha/drop-concreto.jpg', focus: '50% center', alt: 'Modelo de moletom cinza e calça cargo preta diante de prédio de concreto',
+      kicker: 'Drop toda quinta, 11h', text: 'Tiragem curta. Quando acaba, acaba.',
+    },
+    collab: { img: '/campanha/collab-estudio-x.jpg', focus: '60% center', alt: 'Artista estampando camisetas num ateliê de serigrafia' },
+    lookbook: {
+      img: '/campanha/lookbook-varzea.jpg', focus: '52% center', alt: 'Amigos num campo de várzea ao pôr do sol',
+      kicker: 'Lookbook', title: 'Várzea, domingo 9h', text: 'Quatro looks do Verão 27 fotografados em São Paulo.',
+    },
+  },
   dropName: 'Drop 07: Concreto',
   collab: {
     title: ['Street Dreams', 'Estúdio X'],

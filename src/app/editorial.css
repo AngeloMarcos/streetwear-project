@@ -1,0 +1,196 @@
+/* =====================================================================
+   EDITORIAL (referências): Palace, Kith, Aimé Leon Dore, Noah, Stüssy, Carhartt WIP, Supreme.
+   Fica por último: sobrescreve o visual Verão 27 com uma cara mais silenciosa e de marca.
+   ===================================================================== */
+:root {
+  --ink: #111;
+  --paper: #fff;
+  --paper-2: #f2f2f2;
+  --line: #e6e6e6;
+  --muted: #767676;
+  --accent: #111;
+  --new: #1f8a3b;
+  --serif: var(--font-serif), 'Times New Roman', serif;
+  --gutter: clamp(12px, 2vw, 24px);
+  --pill-h: 46px;
+  --header-h: 72px;
+}
+body { font-size: 14px; letter-spacing: -.005em; }
+main { padding-top: calc(var(--pill-h) + 28px); }
+main:has(> .ed-home) { padding-top: 0; }
+
+/* Faixa de avisos some: o menu flutua sobre a foto (Palace / ALD) */
+.announce { display: none; }
+
+/* ---------- Menu em pílula (Palace / Baw) ---------- */
+.pill { position: fixed; z-index: 60; top: 12px; left: 50%; transform: translateX(-50%); height: var(--pill-h); display: flex; align-items: center; gap: 4px; padding: 0 6px 0 18px; background: #0d0d0d; color: #fff; border-radius: 999px; box-shadow: 0 8px 30px rgba(0, 0, 0, .18); max-width: calc(100vw - 24px); white-space: nowrap; }
+.pill .logo { margin-right: 10px; }
+.pill .logo__word { font-family: var(--display); font-weight: 900; font-stretch: 112%; font-style: italic; font-size: 17px; letter-spacing: -.02em; color: #fff; }
+.pill__nav { display: flex; align-items: center; gap: 2px; }
+.pill__nav a, .pill__btn { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 11px; border-radius: 999px; font: 700 11.5px/1 var(--body); text-transform: uppercase; letter-spacing: .03em; color: #fff; background: none; border: 0; }
+.pill__nav a:hover, .pill__btn:hover, .pill__nav a.is-active { background: #2a2a2a; }
+.pill__nav a.is-active { text-decoration: underline; text-underline-offset: 4px; background: none; }
+.pill__bf { color: #ffe14d !important; }
+.pill__count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: #fff; color: #111; display: inline-grid; place-items: center; font-size: 10.5px; }
+.pill__count.bump { animation: bump .35s; }
+.pill__menu { display: none; }
+
+/* Busca abre embaixo da pílula */
+.search-wrap { position: fixed; top: calc(var(--pill-h) + 20px); left: 50%; transform: translateX(-50%); width: min(720px, calc(100vw - 24px)); z-index: 59; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, .2); }
+.search { position: static; border: 0; background: #fff; padding: 10px 16px; }
+.search input { font-size: 16px; border-bottom: 0; }
+.search-results { border: 0; max-height: 60vh; }
+
+/* Menu do celular: lista em fundo preto (Supreme) */
+.mobile-menu { inset: 0; z-index: 55; background: #0d0d0d; color: #fff; padding: calc(var(--pill-h) + 48px) 28px 40px; transform: translateY(-100%); transition: transform .35s ease; }
+.mobile-menu nav { gap: 2px; }
+.mobile-menu a, .mobile-menu button { font: 500 15px/1.9 var(--font-mono), ui-monospace, monospace; text-transform: lowercase; letter-spacing: 0; border: 0; padding: 0; color: #fff; text-align: left; background: none; }
+.mobile-menu .mobile-menu__sub { color: #9a9a9a; padding-left: 4px; }
+.mobile-menu a:hover { text-decoration: underline; }
+
+/* ---------- Data e hora ao vivo (Aimé Leon Dore / Supreme) ---------- */
+.dateline { position: absolute; z-index: 5; top: calc(12px + var(--pill-h) + 10px); left: 0; right: 0; text-align: center; font: 500 11px/1 var(--body); color: rgba(255, 255, 255, .9); text-shadow: 0 1px 8px rgba(0, 0, 0, .4); letter-spacing: .01em; pointer-events: none; }
+.ed-home { position: relative; }
+
+/* ---------- Campanha em tela cheia (Kith / Noah / ALD) ---------- */
+.camp { position: relative; height: 100svh; min-height: 560px; max-height: 1100px; overflow: hidden; color: #fff; background: #222; }
+.camp + .camp { margin-top: 0; }
+.camp__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.camp::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, .28) 0%, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .55) 100%); pointer-events: none; }
+.camp__body { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 0 var(--gutter) clamp(20px, 3.5vw, 40px); }
+.camp__copy { max-width: 560px; display: grid; gap: 8px; }
+.camp__kicker { font: 600 11px/1.2 var(--body); text-transform: uppercase; letter-spacing: .08em; opacity: .9; }
+.camp .camp__title { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 3.6vw, 54px); line-height: 1; letter-spacing: -.01em; text-transform: none; font-stretch: 100%; }
+.camp__text { font-size: 13.5px; line-height: 1.45; opacity: .9; max-width: 420px; }
+.camp__side { display: grid; justify-items: end; gap: 14px; }
+.camp__actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.camp__btn { height: 40px; display: inline-flex; align-items: center; padding: 0 22px; border: 1px solid rgba(255, 255, 255, .85); font: 600 11px/1 var(--body); text-transform: uppercase; letter-spacing: .1em; color: #fff; transition: background .2s, color .2s; }
+.camp__btn:hover { background: #fff; color: #111; }
+.camp__clock { display: grid; justify-items: end; gap: 6px; }
+.camp__clock > span { font: 600 10.5px/1 var(--body); text-transform: uppercase; letter-spacing: .1em; opacity: .85; }
+.camp .countdown { gap: 0; }
+.camp .countdown div { background: none; color: #fff; min-width: 0; padding: 0 0 0 14px; border-radius: 0; text-align: right; }
+.camp .countdown b { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3vw, 44px); font-stretch: 100%; }
+.camp .countdown span { font-size: 9.5px; letter-spacing: .1em; opacity: .8; }
+
+/* ---------- Faixa de peças sob a campanha (Kith / Carhartt WIP) ---------- */
+.strip { padding: 22px 0 36px; }
+.strip__head { display: flex; justify-content: space-between; align-items: baseline; padding: 0 var(--gutter) 14px; }
+.strip__head h3 { font: 700 15px/1 var(--body); letter-spacing: -.01em; }
+.strip__head a { font-size: 12.5px; font-weight: 600; }
+.strip__head a::after { content: ' →'; }
+.strip__row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 5 * 8px - 2 * var(--gutter)) / 5.4); gap: 8px; overflow-x: auto; padding: 0 var(--gutter); scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.strip__row::-webkit-scrollbar { display: none; }
+.strip__row > * { scroll-snap-align: start; }
+
+/* ---------- Card de produto (Carhartt WIP / Palace) ---------- */
+.card { gap: 8px; }
+.card__img { background: var(--paper-2); aspect-ratio: 4 / 5; border-radius: 0; }
+.badges { top: 8px; left: 8px; }
+.badge { background: none !important; color: #111 !important; padding: 0; font: 600 11px/1 var(--body); text-transform: none; letter-spacing: 0; border: 0; border-radius: 0; }
+.badge--bf { color: #c4150c !important; }
+.badge + .badge::before { content: '· '; color: var(--muted); }
+.card__name { font-size: 12.5px; font-weight: 600; line-height: 1.3; }
+.card__new { color: var(--new); font-weight: 600; }
+.card__new--collab { color: var(--muted); }
+.card__meta { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.card .price, .card .price-old { font-size: 12.5px; }
+.price { font-weight: 500; }
+.price--bf { color: #c4150c; }
+.price-pix { font-size: 11.5px; color: var(--muted); font-weight: 400; }
+.quick-add button { border: 0; border-radius: 0; background: #fff; height: 30px; font-size: 11.5px; }
+.quick-add button:hover { background: #111; color: #fff; }
+
+/* ---------- Grade densa (Palace) ---------- */
+.ed-shop { padding: 28px 0 40px; border-top: 1px solid var(--line); }
+.ed-grid, .shop .grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 26px 6px; }
+.ed-grid { padding: 0 var(--gutter); }
+.grid { gap: 26px 8px; }
+
+/* Valores (Noah) e lista de e-mail em texto pequeno */
+.ed-values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 32px var(--gutter); border-top: 1px solid var(--line); }
+.ed-values b { display: block; font: 700 12.5px/1.3 var(--body); margin-bottom: 4px; text-transform: none; font-stretch: 100%; }
+.ed-values p { font-size: 12.5px; color: var(--muted); max-width: 260px; }
+.ed-news { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px var(--gutter); border-top: 1px solid var(--line); font-size: 13px; }
+.ed-news form { display: flex; gap: 6px; width: min(420px, 100%); }
+.ed-news input { flex: 1; min-width: 0; height: 40px; padding: 0 12px; border: 1px solid var(--line); font-size: 13px; }
+.ed-news button { height: 40px; padding: 0 18px; background: #111; color: #fff; font: 600 11px/1 var(--body); text-transform: uppercase; letter-spacing: .08em; border: 0; }
+
+/* ---------- Títulos silenciosos no resto do site ---------- */
+.section__title { font-family: var(--body); font-weight: 700; font-size: 15px; line-height: 1.2; text-transform: none; letter-spacing: -.01em; font-stretch: 100%; }
+.section__head { margin-bottom: 14px; align-items: baseline; }
+.link-arrow { font-size: 12.5px; font-weight: 600; }
+.shop-head { padding: 8px var(--gutter) 0; border: 0; text-align: center; }
+.shop-head h1 { font-family: var(--body); font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.4; font-stretch: 100%; }
+.shop-head__bar { justify-content: center; margin-top: 6px; }
+/* categorias como linha de texto (Palace) */
+.chips { gap: 2px 12px; justify-content: center; }
+.chip { height: auto; padding: 2px 0; border: 0 !important; border-radius: 0; background: none !important; color: #a3a3a3 !important; font: 700 11px/1.4 var(--body); text-transform: uppercase; letter-spacing: .04em; }
+.chip:hover, .chip.is-active { color: #111 !important; }
+.shop-toolbar { justify-content: center; padding-top: 10px; }
+.shop { grid-template-columns: 180px 1fr; padding-top: 14px; }
+.filters h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.filters label { font-size: 12.5px; }
+.result-count { font-size: 11.5px; color: var(--muted); }
+
+/* Rodapé mínimo (Supreme / Stüssy) */
+.footer { background: #fff; color: #111; border-top: 1px solid var(--line); padding: 32px var(--gutter) 22px; }
+.footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr 1.4fr; gap: 24px; }
+.footer h4 { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .06em; }
+.footer__grid a:not(.logo) { color: #111; font-size: 12.5px; padding: 2px 0; }
+.footer__grid a:hover { color: #111; text-decoration: underline; }
+.logo--footer .logo__word { color: #111; font-size: 22px; font-style: italic; font-stretch: 112%; }
+.footer .muted, .footer__bottom { color: var(--muted); }
+.footer__bottom { border-top-color: var(--line); font-size: 11.5px; }
+.pay-badges span { border-color: var(--line); color: #111; }
+
+/* Botões principais: retos, finos, caixa alta (Kith) */
+.btn { border-radius: 0; height: 44px; font: 600 11.5px/1 var(--body); text-transform: uppercase; letter-spacing: .1em; background: #111; border-color: #111; }
+.btn--light { background: #fff; color: #111; }
+.btn--line { border-radius: 0; }
+
+/* Black Friday silenciosa (referências gringas): sem laranja gritando */
+.bf-preview .bf-note { background: #111; border-radius: 0; }
+.bf-preview .bf-note span { color: #111; border-radius: 0; }
+.bfx-tier__title span { color: #111; font-family: var(--serif); font-weight: 400; font-stretch: 100%; }
+.bfx-tiers a { border-radius: 0; }
+.popup { border-radius: 0; }
+.popup .mono { background: #111; border-radius: 0; }
+.popup__title { font-family: var(--serif); font-weight: 400; text-transform: none; font-size: 30px; line-height: 1.05; font-stretch: 100%; }
+.popup__form input, .popup__form button { border-radius: 0; }
+
+/* WhatsApp discreto */
+.wa-float { width: 48px; height: 48px; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1180px) {
+  .pill__nav a { padding: 0 8px; }
+  .ed-grid, .shop .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1024px) {
+  .pill { left: 12px; right: 12px; transform: none; max-width: none; justify-content: space-between; padding: 0 6px 0 16px; }
+  .pill__nav, .pill__search { display: none; }
+  .pill .logo { margin-right: auto; }
+  .pill__menu { display: inline-flex; }
+  .mobile-menu.is-open { transform: none; }
+  .strip__row { grid-auto-columns: 40%; }
+  .ed-values { grid-template-columns: 1fr 1fr; }
+  .footer__grid { grid-template-columns: 1fr 1fr; }
+  .shop { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .pill { padding: 0 4px 0 14px; gap: 0; }
+  .pill .logo__word { font-size: 15px; }
+  .pill__btn { padding: 0 9px; font-size: 10.5px; }
+  .pill__label { display: none; }
+  .dateline { font-size: 10px; padding: 0 16px; line-height: 1.4; }
+  .camp { height: 88svh; min-height: 520px; }
+  .camp__body { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .camp__side { justify-items: start; width: 100%; }
+  .camp__clock { justify-items: start; }
+  .camp .countdown div { padding: 0 14px 0 0; text-align: left; }
+  .camp__actions { justify-content: flex-start; }
+  .strip__row { grid-auto-columns: 62%; }
+  .ed-grid, .shop .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ed-values { grid-template-columns: 1fr; gap: 14px; }
+}

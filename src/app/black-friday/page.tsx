@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getBf, listBlackFriday } from '@/lib/products';
-import { BlackFridayBanner, bfPieces } from '@/components/BlackFridayBanner';
+import { Campaign } from '@/components/Campaign';
+import { Countdown } from '@/components/Countdown';
+import { Dateline } from '@/components/Dateline';
+import { site } from '@/content/site';
 import { ShopGrid } from '@/components/ShopGrid';
 import { ProductCard } from '@/components/ProductCard';
 import { money } from '@/lib/pricing';
@@ -30,9 +33,20 @@ export default async function BlackFridayPage() {
     { id: `off-${base}`, chip: `${base}% off`, big: `−${base}%`, label: 'na loja toda', items: products.filter((p) => p.bfPercent === base) },
   ].filter((t) => t.items.length);
 
+  const live = bf.phase === 'live';
   return (
-    <>
-      <BlackFridayBanner bf={bf} pieces={bfPieces(products)} />
+    <div className="ed-home">
+      <Dateline />
+      <Campaign
+        first
+        img={site.campaigns.blackFriday.img}
+        focus={site.campaigns.blackFriday.focus}
+        alt={site.campaigns.blackFriday.alt}
+        kicker={live ? `Valendo até ${bf.endLabel} às 23h59` : `${bf.startLabel} a ${bf.endLabel}`}
+        title="Black Friday"
+        text={`Até ${bf.maxPercent}% off na loja toda, sem cupom. ${live ? 'O desconto já está no preço.' : 'Os preços caem na sexta à 0h.'}`}
+        extra={<div className="camp__clock"><span>{live ? 'Acaba em' : 'Começa em'}</span><Countdown to={live ? bf.end : bf.start} /></div>}
+      />
 
       <ul className="perks" aria-label="Como funciona">
         <li><b>Sem cupom</b><span>o desconto já sai no preço</span></li>
@@ -70,6 +84,6 @@ export default async function BlackFridayPage() {
           ))}
         </section>
       )}
-    </>
+    </div>
   );
 }
