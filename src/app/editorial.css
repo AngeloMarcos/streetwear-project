@@ -313,3 +313,94 @@ main:has(> .ed-home) { padding-top: 0; }
   .lb__side { justify-items: start; grid-auto-flow: column; align-items: center; justify-content: space-between; }
   .lb__frame { margin-bottom: 48px; }
 }
+
+
+/* ---------- Carrinho (gaveta à direita, Kith / Carhartt WIP) ---------- */
+.overlay { background: rgba(0, 0, 0, .35); z-index: 70; }
+.drawer { z-index: 71; width: min(420px, 100%); box-shadow: -20px 0 60px rgba(0, 0, 0, .12); }
+.drawer__head { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.drawer__head h3 { font: 700 13px/1 var(--body); text-transform: uppercase; letter-spacing: .06em; font-stretch: 100%; }
+.drawer__count { color: var(--muted); font-weight: 500; }
+.drawer__close { font: 600 11px/1 var(--body); text-transform: uppercase; letter-spacing: .06em; text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; color: #111; }
+.drawer__body { padding: 18px 22px; gap: 18px; }
+.drawer__foot { padding: 16px 22px 20px; border-top: 1px solid var(--line); gap: 12px; }
+.drawer__note { font-size: 11.5px; color: var(--muted); text-align: center; }
+.ship-bar { font-size: 12px; color: #333; }
+.ship-bar__track { height: 2px; background: var(--line); border-radius: 0; margin-top: 8px; }
+.ship-bar__fill { background: #111; }
+.line { grid-template-columns: 76px 1fr auto; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.line__img { position: relative; overflow: hidden; border-radius: 0; background: var(--paper-2); }
+.line__img .art { position: absolute; inset: 0; }
+.line__name { font-size: 12.5px; font-weight: 600; }
+.line .muted.small { font-size: 12px; }
+.line .price { font-size: 12.5px; font-weight: 500; text-align: right; }
+.qty { border: 1px solid var(--line); border-radius: 0; margin-top: 10px; }
+.qty button { width: 28px; height: 28px; font-size: 14px; }
+.qty span { width: 26px; font-size: 12px; font-weight: 500; }
+.remove { font-size: 11px; margin-top: 8px; }
+.totals { font-size: 12.5px; gap: 6px; }
+.totals .grand { font-size: 14px; font-weight: 700; padding-top: 8px; border-top: 1px solid var(--line); margin-top: 2px; }
+.totals .pix { color: var(--new); font-weight: 500; }
+.bf-saved { color: #c4150c; }
+.upsell { border-top: 0; margin-top: 4px; padding-top: 0; }
+.upsell .mono { font: 700 11px/1 var(--body); text-transform: uppercase; letter-spacing: .06em; }
+.upsell__img { border-radius: 0; }
+.upsell .chip { color: #111 !important; text-decoration: underline; font-size: 10.5px; }
+.empty__title { font-family: var(--serif); font-size: 30px; line-height: 1.1; margin-bottom: 6px; }
+.drawer .empty { display: grid; justify-items: center; gap: 10px; padding-top: 72px; }
+
+/* ---------- Checkout (layout Shopify das gringas: formulário à esquerda, resumo cinza à direita) ---------- */
+.checkout { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 0; padding: 0; margin-top: -8px; border-top: 1px solid var(--line); min-height: 80vh; }
+.checkout > form { width: 100%; max-width: 620px; justify-self: end; padding: 32px clamp(20px, 5vw, 64px) 64px; }
+.co-steps { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+.co-steps a { color: #111; text-decoration: underline; text-underline-offset: 3px; }
+.co-steps b { color: #111; font-weight: 600; }
+.checkout .co-title { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3vw, 40px); line-height: 1.05; text-transform: none; margin: 0 0 8px; font-stretch: 100%; }
+.co-h { font: 700 15px/1.2 var(--body); margin: 28px 0 12px; letter-spacing: -.01em; }
+.co-sub { font-size: 12.5px; color: var(--muted); margin: -6px 0 12px; }
+.checkout .form { gap: 10px; }
+.checkout .field { font-size: 12px; font-weight: 500; text-transform: none; letter-spacing: 0; color: #555; gap: 5px; }
+.checkout .field input, .checkout .field select { height: 46px; border: 1px solid #d6d6d6; border-radius: 5px; background: #fff; padding: 0 12px; font-size: 14px; color: #111; }
+.checkout .field input:focus { outline: none; border-color: #111; box-shadow: 0 0 0 1px #111; }
+.checkout .pay-options { gap: 0; border: 1px solid #d6d6d6; border-radius: 5px; overflow: hidden; }
+.checkout .pay-opt { border: 0; border-radius: 0; border-bottom: 1px solid #d6d6d6; padding: 16px; font-size: 13.5px; background: #fff; color: #111; }
+.checkout .pay-opt:last-child { border-bottom: 0; }
+.checkout .pay-opt:has(input:checked) { background: #f6f6f6; color: #111; box-shadow: inset 0 0 0 1px #111; }
+.checkout .pay-opt input { accent-color: #111; width: 16px; height: 16px; }
+.checkout .pay-opt strong { font-weight: 600; }
+.checkout .pay-opt small { font-size: 12px; color: var(--muted); opacity: 1; margin-top: 2px; }
+.co-pay { height: 54px; margin-top: 22px; border-radius: 5px; font-size: 12px; }
+.co-legal { font-size: 11.5px; color: var(--muted); margin-top: 10px; }
+.checkout .form-error { font-size: 13px; color: #c4150c; margin-top: 12px; }
+.checkout .summary { position: static; align-self: stretch; background: #f5f5f5; border-left: 1px solid var(--line); border-radius: 0; padding: 32px clamp(20px, 4vw, 56px) 48px; gap: 16px; }
+.checkout .summary > * { max-width: 440px; width: 100%; }
+.co-h--sum { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+.checkout .summary .line { grid-template-columns: 64px 1fr auto !important; border-bottom: 0; padding-bottom: 0; align-items: center; }
+.checkout .summary .line__img { overflow: visible; background: #eaeaea; border: 1px solid #e0e0e0; border-radius: 6px; }
+.checkout .summary .line__img .art { border-radius: 6px; overflow: hidden; }
+.co-qty { position: absolute; top: -8px; right: -8px; z-index: 2; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #666; color: #fff; font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+.checkout .totals { padding-top: 14px; border-top: 1px solid #e0e0e0; font-size: 13px; }
+.checkout .totals .grand { font-size: 17px; border-top: 0; padding-top: 6px; }
+
+@media (max-width: 1024px) {
+  .checkout { grid-template-columns: minmax(0, 1fr); }
+  .checkout > form { max-width: none; justify-self: stretch; order: 2; padding-top: 24px; }
+  .checkout .summary { order: 1; border-left: 0; border-bottom: 1px solid var(--line); padding: 24px var(--gutter); }
+  .checkout .summary > * { max-width: none; }
+}
+
+
+/* botão "fantasma" (contorno) volta a ter texto visível */
+.btn--ghost { background: transparent !important; color: #111 !important; border: 1px solid #111 !important; }
+.btn--ghost:hover { background: #111 !important; color: #fff !important; }
+
+/* ---------- Página do pedido (mesmo visual do checkout) ---------- */
+.order { max-width: 660px; margin: 0 auto; padding: 32px var(--gutter) 64px; display: grid; gap: 12px; justify-items: start; }
+.order .co-title { font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4vw, 46px); line-height: 1.05; }
+.order__kicker { font-size: 12px; color: var(--muted); }
+.status-pill { font-family: var(--body); font-size: 11px; font-weight: 600; border-radius: 999px; padding: 4px 10px; }
+.order .pix-qr { border: 1px solid #d6d6d6; border-radius: 6px; padding: 18px; width: 100%; }
+.order .pix-qr .btn { border-radius: 5px; }
+.order-summary { width: 100%; max-width: none; background: #f5f5f5; border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; margin-top: 12px; }
+.order-summary .totals { font-size: 13px; }
+.order__back { font: 600 11px/1 var(--body); text-transform: uppercase; letter-spacing: .1em; text-decoration: underline; text-underline-offset: 4px; margin-top: 8px; }

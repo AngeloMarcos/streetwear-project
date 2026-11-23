@@ -18,15 +18,15 @@ export function CartDrawer() {
       {open && <div className="overlay" onClick={close} />}
       <aside className={`drawer ${open ? 'is-open' : ''}`} aria-label="Carrinho" aria-hidden={!open}>
         <div className="drawer__head">
-          <h3>Carrinho</h3>
-          <button className="icon-btn" onClick={close} aria-label="Fechar carrinho">✕</button>
+          <h3>Carrinho{lines.length > 0 && <span className="drawer__count"> ({lines.reduce((s, l) => s + l.qty, 0)})</span>}</h3>
+          <button className="drawer__close" onClick={close} aria-label="Fechar carrinho">Fechar</button>
         </div>
         <div className="drawer__body">
           {!lines.length ? (
             <div className="empty">
-              <p className="section__title" style={{ fontSize: 40 }}>Vazio.</p>
-              <p className="muted">Seu carrinho tá esperando o próximo drop.</p><br />
-              <Link className="btn" href="/loja" onClick={close}>Ver produtos</Link>
+              <p className="empty__title">Seu carrinho está vazio.</p>
+              <p className="muted">Ele está esperando o próximo drop.</p>
+              <Link className="btn" href="/loja?tag=novo" onClick={close}>Ver novidades</Link>
             </div>
           ) : (
             <>
@@ -67,7 +67,8 @@ export function CartDrawer() {
               <div className="pix"><span>No Pix ({config.pixDiscountPercent}% off)</span><span>{money(t.pixTotal)}</span></div>
               <div className="muted small"><span>ou {n}x de {money(Math.round(t.total / n))} sem juros</span></div>
             </div>
-            <Link className="btn btn--block" href="/checkout" onClick={close}>Finalizar compra</Link>
+            <Link className="btn btn--block" href="/checkout" onClick={close}>Finalizar compra · {money(t.total)}</Link>
+            <p className="drawer__note">Pix, cartão em até {config.maxInstallments}x ou boleto · troca grátis em 30 dias</p>
           </div>
         )}
       </aside>

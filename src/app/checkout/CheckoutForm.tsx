@@ -25,7 +25,8 @@ export function CheckoutForm() {
   if (!lines.length) {
     return (
       <section className="section">
-        <h1 className="section__title">Carrinho vazio</h1><br />
+        <h1 className="empty__title">Seu carrinho está vazio.</h1>
+        <p className="muted" style={{ margin: '8px 0 20px' }}>Escolha suas peças e volte aqui para finalizar.</p>
         <Link className="btn" href="/loja">Ir pra loja</Link>
       </section>
     );
@@ -71,8 +72,9 @@ export function CheckoutForm() {
   return (
     <section className="checkout">
       <form onSubmit={submit}>
-        <h1>Finalizar compra</h1>
-        <h4 className="mono" style={{ marginBottom: 12 }}>1. Seus dados</h4>
+        <nav className="co-steps" aria-label="Etapas"><Link href="/loja">Carrinho</Link><span>›</span><b>Dados e entrega</b><span>›</span><span>Pagamento</span></nav>
+        <h1 className="co-title">Finalizar compra</h1>
+        <h2 className="co-h">Contato</h2>
         <div className="form">
           <label className="field full">Nome completo<input required name="name" autoComplete="name" /></label>
           <label className="field">E-mail<input required type="email" name="email" autoComplete="email" /></label>
@@ -80,7 +82,7 @@ export function CheckoutForm() {
           <label className="field full">CPF<input required name="cpf" inputMode="numeric" placeholder="000.000.000-00" maxLength={14} onChange={(e) => (e.target.value = maskCPF(e.target.value))} /></label>
         </div>
 
-        <h4 className="mono" style={{ margin: '28px 0 12px' }}>2. Entrega</h4>
+        <h2 className="co-h">Entrega</h2>
         <div className="form">
           <label className="field">CEP<input required name="cep" inputMode="numeric" placeholder="00000-000" maxLength={9} autoComplete="postal-code"
             onChange={(e) => { e.target.value = maskCEP(e.target.value); lookupCEP(e.target.value); }} /></label>
@@ -92,7 +94,8 @@ export function CheckoutForm() {
           <label className="field">UF<input required name="uf" maxLength={2} autoComplete="address-level1" value={addr.uf} onChange={(e) => setAddr({ ...addr, uf: e.target.value.toUpperCase() })} /></label>
         </div>
 
-        <h4 className="mono" style={{ margin: '28px 0 12px' }}>3. Pagamento</h4>
+        <h2 className="co-h">Pagamento</h2>
+        <p className="co-sub">Você paga no ambiente seguro do Mercado Pago.</p>
         <div className="pay-options">
           <label className="pay-opt"><input type="radio" name="pay" checked={method === 'PIX'} onChange={() => setMethod('PIX')} />
             <div><strong>Pix — {money(t.pixTotal)}</strong><small>{config.pixDiscountPercent}% de desconto · aprovação na hora</small></div></label>
@@ -102,17 +105,16 @@ export function CheckoutForm() {
             <div><strong>Boleto — {money(t.total)}</strong><small>Compensação em até 2 dias úteis</small></div></label>
         </div>
         {error && <p className="form-error" role="alert">{error}</p>}
-        <br />
-        <button className="btn btn--block" disabled={busy}>{busy ? 'Processando…' : method === 'PIX' ? 'Gerar Pix' : 'Ir para pagamento'}</button>
-        <p className="small muted" style={{ marginTop: 8 }}>Ao finalizar você concorda com a política de trocas. Seus dados são usados só para entrega e nota fiscal.</p>
+        <button className="btn btn--block co-pay" disabled={busy}>{busy ? 'Processando…' : method === 'PIX' ? `Gerar Pix · ${money(t.pixTotal)}` : `Ir para pagamento · ${money(t.total)}`}</button>
+        <p className="co-legal">Ao finalizar você concorda com a política de trocas. Seus dados são usados só para entrega e nota fiscal.</p>
       </form>
 
       <aside className="summary">
-        <h4 className="mono">Resumo ({count} {count === 1 ? 'item' : 'itens'})</h4>
+        <h2 className="co-h co-h--sum">Resumo · {count} {count === 1 ? 'item' : 'itens'}</h2>
         {lines.map((l) => (
           <div className="line" key={l.variantId} style={{ gridTemplateColumns: '56px 1fr auto' }}>
-            <div className="line__img"><ProductArt product={l.art} /></div>
-            <div><div className="line__name">{l.name}</div><div className="muted small">{l.colorName} · {l.size} · {l.qty}x</div></div>
+            <div className="line__img"><ProductArt product={l.art} /><span className="co-qty">{l.qty}</span></div>
+            <div><div className="line__name">{l.name}</div><div className="muted small">{l.colorName} · {l.size}</div></div>
             <div className="price">
               {l.fullPriceCents && l.fullPriceCents > l.priceCents && <s className="price-old">{money(l.fullPriceCents * l.qty)}</s>}
               {money(l.priceCents * l.qty)}

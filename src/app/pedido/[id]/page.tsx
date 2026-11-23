@@ -19,9 +19,10 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
 
   return (
     <section className="section order">
-      <span className="mono muted">Pedido #{o.number} · {METHOD_LABEL[o.paymentMethod]}</span>
-      <h1 className="section__title" style={{ fontSize: 'clamp(48px,9vw,120px)' }}>
-        {o.status === 'PAID' || o.status === 'SHIPPED' || o.status === 'DELIVERED' ? 'Valeu! ✓' : o.status === 'CANCELED' ? 'Cancelado' : 'Quase lá.'}
+      <nav className="co-steps" aria-label="Etapas"><span>Carrinho</span><span>›</span><span>Dados e entrega</span><span>›</span><b>Pagamento</b></nav>
+      <span className="order__kicker">Pedido #{o.number} · {METHOD_LABEL[o.paymentMethod]}</span>
+      <h1 className="co-title">
+        {o.status === 'PAID' || o.status === 'SHIPPED' || o.status === 'DELIVERED' ? 'Valeu, pedido confirmado.' : o.status === 'CANCELED' ? 'Pedido cancelado.' : 'Quase lá.'}
       </h1>
       <p className={`status-pill status-${o.status.toLowerCase()}`}>{STATUS_LABEL[o.status]}</p>
       {o.trackingCode && <p style={{ marginTop: 12 }}>Rastreio: <b>{o.trackingCode}</b> — <a className="link-arrow" href={`https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(o.trackingCode)}`} target="_blank" rel="noopener">acompanhar</a></p>}
@@ -42,7 +43,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
       {o.status === 'CANCELED' && <p style={{ margin: '16px 0' }}>Este pedido foi cancelado (pagamento não concluído). Os itens voltaram pro estoque.</p>}
 
       <div className="order-summary">
-        <h4 className="mono">Itens</h4>
+        <h2 className="co-h co-h--sum">Resumo do pedido</h2>
         {o.items.map((i) => (
           <div key={i.id} className="totals"><div><span>{i.qty}x {i.name} — {i.colorName} · {i.size}</span><span>{money(i.priceCents * i.qty)}</span></div></div>
         ))}
@@ -52,10 +53,10 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
           <div><span>Frete</span><span>{o.shippingCents ? money(o.shippingCents) : 'Grátis'}</span></div>
           <div className="grand"><span>Total</span><span>{money(o.totalCents)}</span></div>
         </div>
-        <h4 className="mono" style={{ marginTop: 20 }}>Entrega</h4>
+        <h2 className="co-h co-h--sum" style={{ marginTop: 18 }}>Entrega</h2>
         <p className="small">{o.name}<br />{o.street}, {o.addressNumber}{o.complement ? ` — ${o.complement}` : ''}<br />{o.district && `${o.district} · `}{o.city}/{o.uf} · {o.cep}</p>
       </div>
-      <br /><Link className="btn btn--ghost" href="/loja">Continuar comprando</Link>
+      <Link className="order__back" href="/loja">Continuar comprando</Link>
     </section>
   );
 }
