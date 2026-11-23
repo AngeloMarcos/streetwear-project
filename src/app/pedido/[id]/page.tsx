@@ -7,6 +7,9 @@ import { demoPayments } from '@/lib/mp';
 import { money } from '@/lib/pricing';
 import { PixBox, StatusWatcher } from './PixBox';
 
+const TRACK = ['Pedido feito', 'Pagamento confirmado', 'Enviado', 'Entregue'];
+const STEP: Record<string, number> = { PENDING: 1, PAID: 2, SHIPPED: 3, DELIVERED: 4 };
+
 export const metadata: Metadata = { title: 'Pedido', robots: { index: false } };
 
 export default async function OrderPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ t?: string }> }) {
@@ -25,6 +28,14 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
         {o.status === 'PAID' || o.status === 'SHIPPED' || o.status === 'DELIVERED' ? 'Valeu, pedido confirmado.' : o.status === 'CANCELED' ? 'Pedido cancelado.' : 'Quase lá.'}
       </h1>
       <p className={`status-pill status-${o.status.toLowerCase()}`}>{STATUS_LABEL[o.status]}</p>
+      {o.status !== 'CANCELED' && (
+        <ol className="order-track" aria-label="Andamento do pedido">
+          {TRACK.map((label, i) => {
+            const done = i < (STEP[o.status] ?? 1);
+            return <li key={label} className={done ? 'is-done' : i === (STEP[o.status] ?? 1) ? 'is-next' : ''}>{label}</li>;
+          })}
+        </ol>
+      )}
       {o.trackingCode && <p style={{ marginTop: 12 }}>Rastreio: <b>{o.trackingCode}</b> — <a className="link-arrow" href={`https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(o.trackingCode)}`} target="_blank" rel="noopener">acompanhar</a></p>}
 
       {pending && <StatusWatcher id={o.id} token={o.accessToken} />}
