@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { shopConfig } from '@/lib/config';
 import { isValidCPF } from '@/lib/cpf';
 import { CheckoutError, PIX_MIN, cancelOrder, createOrder } from '@/lib/orders';
-import { createCheckoutPreference, createPixPayment, mpEnabled } from '@/lib/mp';
+import { createCheckoutPreference, createPixPayment, demoPayments, mpEnabled } from '@/lib/mp';
 
 const schema = z.object({
   items: z.array(z.object({ variantId: z.string().min(1).max(40), qty: z.number().int().min(1).max(10) })).min(1).max(30),
@@ -31,6 +31,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: first ? `${first.path.at(-1) ?? 'dados'}: ${first.message}` : 'Dados inválidos' }, { status: 400 });
   }
   const input = parsed.data;
+
+  // Sem Mercado Pago no ar: não cria pedido nem reserva estoque
+  if (!mpEnabled() && !demoPayments()) {
+    return NextResponse.json({ error: 'Pagamento indisponível no momento. Fale com a gente no WhatsApp (11) 91677-2455 para fechar seu pedido.' }, { status: 503 });
+  }
 
   let order;
   try {

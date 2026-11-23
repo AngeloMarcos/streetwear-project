@@ -35,7 +35,7 @@ export default async function AdminOrders({ searchParams }: { searchParams: Prom
 
   return (
     <>
-      {!mpEnabled() && <p className="admin-alert">⚠️ Mercado Pago não configurado — a loja está em <b>modo demonstração</b> (nenhum pagamento real). Preencha MP_ACCESS_TOKEN no .env.</p>}
+      {!mpEnabled() && <p className="admin-alert">⚠️ Mercado Pago não configurado — o checkout está <b>bloqueado</b> no ar (nenhum pedido entra). Preencha MP_ACCESS_TOKEN no .env.</p>}
       <div className="kpis">
         <div><span>Vendas hoje</span><b>{money(today._sum.totalCents ?? 0)}</b><small>{today._count} pedidos</small></div>
         <div><span>Vendas no mês</span><b>{money(month._sum.totalCents ?? 0)}</b><small>{month._count} pedidos</small></div>

@@ -7,6 +7,10 @@ import { siteUrl } from './config';
 
 export const mpEnabled = () => Boolean(process.env.MP_ACCESS_TOKEN);
 
+/** Modo demonstração (Pix falso + botão de simular pagamento): só sem Mercado Pago E fora de produção,
+ *  ou com DEMO_PAYMENTS=1 explícito (testes locais). No ar, sem token, o checkout fica indisponível. */
+export const demoPayments = () => !mpEnabled() && (process.env.NODE_ENV !== 'production' || process.env.DEMO_PAYMENTS === '1');
+
 let client: MercadoPagoConfig | null = null;
 const mp = () => {
   if (!process.env.MP_ACCESS_TOKEN) throw new Error('MP_ACCESS_TOKEN não configurado');

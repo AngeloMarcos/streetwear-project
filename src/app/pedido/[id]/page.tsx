@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { db } from '@/lib/db';
 import { METHOD_LABEL, STATUS_LABEL, tokenMatches } from '@/lib/orders';
-import { mpEnabled } from '@/lib/mp';
+import { demoPayments } from '@/lib/mp';
 import { money } from '@/lib/pricing';
 import { PixBox, StatusWatcher } from './PixBox';
 
@@ -15,7 +15,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
   if (!o || !tokenMatches(o.accessToken, t)) notFound();
 
   const pending = o.status === 'PENDING';
-  const demo = !mpEnabled();
+  const demo = demoPayments();
 
   return (
     <section className="section order">
