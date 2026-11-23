@@ -6,7 +6,7 @@ import { CATEGORIES, TYPES, shopConfig } from '@/lib/config';
 import { getBf, getProduct, listProducts } from '@/lib/products';
 import { installments, money, pixPrice } from '@/lib/pricing';
 import { ProductArt } from '@/components/ProductArt';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductStrip } from '@/components/Campaign';
 import { AddToCart } from '@/components/AddToCart';
 import { ShippingCalc } from '@/components/Forms';
 import { RecentlyViewed, ShareButton } from '@/components/Extras';
@@ -37,76 +37,79 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   const [variants, related, bf] = await Promise.all([
     listProducts({ name: p.name }),
-    listProducts({ category: p.category, NOT: { name: p.name } }, 4),
+    listProducts({ category: p.category, NOT: { name: p.name } }, 8),
     getBf(),
   ]);
   const n = installments(p.priceCents, shopConfig);
 
   return (
     <>
-      <section className="pdp">
+      {/* Página de produto no estilo Carhartt WIP (fotos em grade, cinza) + Kith (painel fixo, linhas finas) */}
+      <section className="pdp pdp--ed">
         <div className="pdp__gallery">
-          <div><ProductArt product={p} label /></div>
-          <div><ProductArt product={p} view={1} label /></div>
-          <div><ProductArt product={p} view={2} label /></div>
+          <div><ProductArt product={p} /></div>
+          <div><ProductArt product={p} view={1} /></div>
+          <div className="pdp__wide"><ProductArt product={p} view={2} /></div>
         </div>
         <div className="pdp__info">
-          <div className="crumbs">
-            <Link href="/">Início</Link> / <Link href={`/loja?cat=${p.category}`}>{CATEGORIES[p.category]}</Link> / {TYPES[p.type]?.label}
+          <nav className="crumbs" aria-label="Você está em">
+            <Link href="/">Início</Link><span>›</span><Link href={`/loja?cat=${p.category}`}>{CATEGORIES[p.category]}</Link><span>›</span><Link href={`/loja?tipo=${p.type}`}>{TYPES[p.type]?.plural ?? TYPES[p.type]?.label}</Link>
+          </nav>
+
+          <div className="pdp__head">
+            <h1 className="pdp__title">
+              {p.name}
+              {p.tags.includes('novo') && <span className="card__new"> Novo</span>}
+              {p.tags.includes('collab') && <span className="card__new card__new--collab"> Collab</span>}
+            </h1>
+            <p className="pdp__price">
+              {p.offPercent > 0 && <><s className="price-old">{money(p.fullPriceCents)}</s>{' '}</>}
+              <span className={p.offPercent > 0 ? 'price--bf' : ''}>{money(p.priceCents)}</span>
+              {p.offPercent > 0 && <span className="pdp__off"> −{p.offPercent}% Black Friday</span>}
+            </p>
+            <p className="pdp__pay">
+              {money(pixPrice(p.priceCents, shopConfig))} no Pix ({shopConfig.pixDiscountPercent}% off) · ou {n}x de {money(Math.round(p.priceCents / n))} sem juros
+            </p>
           </div>
-          <div>
-            {p.tags.includes('collab') && <span className="badge badge--dark">Collab</span>}{' '}
-            {p.tags.includes('novo') && <span className="badge badge--accent">Novo</span>}
-            <h1 className="pdp__title" style={{ marginTop: 8 }}>{p.name}</h1>
-            <p className="muted pdp__sub"><span>{p.colorName}</span><ShareButton title={`${p.name} ${p.colorName}`} /></p>
-          </div>
-          <div className="pdp__price">
-            {p.offPercent > 0 && <><s className="price-old">{money(p.fullPriceCents)}</s>{' '}</>}
-            <span className={p.offPercent > 0 ? 'price--bf' : ''}>{money(p.priceCents)}</span>
-            {p.offPercent > 0 && <>{' '}<span className="badge badge--bf">Black Friday −{p.offPercent}%</span></>}
-          </div>
+
           {bf.phase === 'teaser' && p.bfPercent > 0 && (
-            <p className="bf-note">Na Black Friday ({bf.startLabel}) esta peça sai com <b>{p.bfPercent}% off</b>. <Link href="/black-friday">Saiba mais →</Link></p>
+            <p className="bf-note">Na Black Friday ({bf.startLabel}) esta peça sai por <b>{money(Math.round(p.fullPriceCents * (1 - p.bfPercent / 100)))}</b> ({p.bfPercent}% off). <Link href="/black-friday">Ver a prévia</Link></p>
           )}
-          <div className="pay-box">
-            <span><b>{money(pixPrice(p.priceCents, shopConfig))}</b> no Pix ({shopConfig.pixDiscountPercent}% off)</span>
-            <span>ou {n}x de {money(Math.round(p.priceCents / n))} sem juros no cartão</span>
-          </div>
-          {variants.length > 1 && (
-            <div>
-              <div className="label-row"><span>Cor: {p.colorName}</span></div>
+
+          <div className="pdp__colors">
+            {variants.length > 1 && (
               <div className="variants">
                 {variants.map((v) => (
-                  <Link key={v.id} className={`variant ${v.id === p.id ? 'is-active' : ''}`} href={`/produto/${v.slug}`} title={v.colorName}>
+                  <Link key={v.id} className={`variant ${v.id === p.id ? 'is-active' : ''}`} href={`/produto/${v.slug}`} title={v.colorName} aria-label={`Cor ${v.colorName}`}>
                     <ProductArt product={v} />
                   </Link>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+            <p className="pdp__color"><span>Cor:</span> {p.colorName} <ShareButton title={`${p.name} ${p.colorName}`} /></p>
+          </div>
+
           <AddToCart p={p} apparel={p.category === 'roupas'} />
+
           <ul className="trust">
+            <li>Troca grátis em até 30 dias</li>
+            <li>Frete grátis acima de {money(shopConfig.freeShippingCents)}</li>
             <li>Envio em até 2 dias úteis</li>
-            <li>Troca grátis em 30 dias</li>
             <li>Pagamento seguro via Mercado Pago</li>
           </ul>
-          <div>
-            <details open><summary>Descrição</summary><p>{full?.description}</p></details>
+
+          <div className="pdp__details">
+            <details open><summary>Detalhes</summary><p>{full?.description}</p></details>
             <details><summary>Composição e cuidados</summary><ul>{care(p.type).map((c) => <li key={c}>{c}</li>)}</ul></details>
             <details>
-              <summary>Frete e trocas</summary>
-              <p>Frete grátis acima de {money(shopConfig.freeShippingCents)}. Primeira troca grátis em até 30 dias.</p>
+              <summary>Envio e trocas</summary>
+              <p>Frete grátis acima de {money(shopConfig.freeShippingCents)}. Primeira troca grátis em até 30 dias, tudo pelo WhatsApp.</p>
               <ShippingCalc />
             </details>
           </div>
         </div>
       </section>
-      {related.length > 0 && (
-        <section className="section">
-          <div className="section__head"><h2 className="section__title">Combina com</h2></div>
-          <div className="grid">{related.map((r) => <ProductCard key={r.id} p={r} />)}</div>
-        </section>
-      )}
+      <ProductStrip title="Combina com" href={`/loja?cat=${p.category}`} products={related} />
       <RecentlyViewed slug={p.slug} />
     </>
   );

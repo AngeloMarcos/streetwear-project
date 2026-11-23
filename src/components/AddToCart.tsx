@@ -26,12 +26,12 @@ export function AddToCart({ p, apparel }: { p: ProductDTO; apparel: boolean }) {
         </div>
         {variant && (() => { const s = p.sizes.find((x) => x.id === variant); return s && s.stock <= 3 ? <p className="small" style={{ color: 'var(--accent)', marginTop: 6 }}>Só {s.stock} {s.stock === 1 ? 'peça' : 'peças'} nesse tamanho</p> : null; })()}
       </div>
-      <button id="comprar" className="btn btn--block" disabled={soldOut} onClick={() => {
+      <button id="comprar" className={`btn btn--block ${!variant && !soldOut ? 'btn--pick' : ''}`} disabled={soldOut} onClick={() => {
         if (!variant) { toast('Escolhe um tamanho primeiro'); return; }
         add(p, variant);
         setOpen(true);
       }}>
-        {soldOut ? 'Esgotado' : variant ? 'Adicionar ao carrinho' : 'Selecione um tamanho'}
+        {soldOut ? 'Esgotado' : variant ? 'Adicionar ao carrinho' : 'Escolher tamanho'}
       </button>
       <NotifyMe p={p} />
       <StickyBuy p={p} targetId="comprar" />
