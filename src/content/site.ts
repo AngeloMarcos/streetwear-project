@@ -64,7 +64,7 @@ export const site = {
       { title: 'Várzea, domingo 9h', caption: 'Camisa Várzea 26 + Jorts Baggy Denim', slugs: ['jersey-varzea-26', 'jorts-baggy-azul-claro'], bg: '#d7dccf' },
       { title: 'Minhocão, fim de tarde', caption: 'Jaqueta Track Retrô + Calça Jeans Baggy', slugs: ['track-jacket-verde', 'jeans-baggy-preto'], bg: '#1d1d1f' },
       { title: 'Praça Roosevelt', caption: 'Camiseta Boxy Washed + Shorts Track Nylon', slugs: ['tee-boxy-washed-cinza', 'shorts-track-azul'], bg: '#e6e1d6' },
-      { title: 'Chuva no centro', caption: 'Corta-vento Shell Técnico + Calça Track Nylon', slugs: ['shell-tecnico-areia', 'track-pants-preta'], bg: '#2b3bff' },
+      { title: 'Chuva no centro', caption: 'Corta-vento Shell Técnico + Calça Track Nylon', slugs: ['shell-tecnico-areia', 'track-pants-preta'], bg: '#c3c6c2' },
     ],
   },
   // Blog: cada matéria vira uma página em /blog/<slug>, com as peças citadas para comprar no final.

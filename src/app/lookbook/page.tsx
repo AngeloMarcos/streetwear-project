@@ -6,39 +6,62 @@ import { money } from '@/lib/pricing';
 import { ProductArt } from '@/components/ProductArt';
 import { ShopTheLook } from '@/components/AddToCart';
 
-export const metadata: Metadata = { title: 'Lookbook' };
+export const metadata: Metadata = { title: 'Lookbook', description: 'Lookbook Verão 27 da Street Dreams, fotografado em São Paulo.' };
 
+/** Lookbook no estilo Supreme: um look por vez, centralizado, com a legenda das peças em letra de máquina */
 export default async function Lookbook() {
-  const all = await getProductsBySlugs(site.lookbook.looks.flatMap((l) => l.slugs));
+  const lb = site.lookbook;
+  const cover = site.campaigns.lookbook;
+  const all = await getProductsBySlugs(lb.looks.flatMap((l) => l.slugs));
+  const total = lb.looks.length + 1;
+  const n = (i: number) => `${String(i).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+
   return (
-    <>
-      <section className="lookbook-hero">
-        <span className="mono muted">{site.lookbook.season}</span>
-        <h1 className="section__title" style={{ fontSize: 'clamp(56px,11vw,160px)' }}>{site.lookbook.title[0]}<br />{site.lookbook.title[1]}</h1>
-      </section>
-      <div>
-        {site.lookbook.looks.map((l, i) => {
-          const items = l.slugs.map((s) => all.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => !!p);
-          return (
-            <article className="look" key={l.title}>
-              <div className="look__img" style={{ background: l.bg }}>
-                {items.map((p) => <ProductArt key={p.id} product={{ ...p, bg: l.bg }} view={(i % 2) as 0 | 1} />)}
+    <div className="lb">
+      <header className="lb__head">
+        <p>{lb.season.toLowerCase()}</p>
+        <p className="lb__intro">{cover.text}</p>
+      </header>
+
+      {/* capa: a foto da campanha */}
+      <figure className="lb__frame" id="look-1">
+        <div className="lb__img lb__img--photo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={cover.img} alt={cover.alt} style={{ objectPosition: cover.focus }} />
+        </div>
+        <figcaption className="lb__cap">
+          <span className="lb__n">{n(1)}</span>
+          <span>{cover.title.toLowerCase()} — várzea, zona leste</span>
+          <a href="#look-2" className="lb__next">próximo →</a>
+        </figcaption>
+      </figure>
+
+      {lb.looks.map((l, i) => {
+        const items = l.slugs.map((s) => all.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => !!p);
+        const idx = i + 2;
+        return (
+          <figure className="lb__frame" key={l.title} id={`look-${idx}`}>
+            <div className="lb__img" style={{ background: l.bg }}>
+              <div className={`lb__pieces lb__pieces--${items.length}`}>
+                {items.map((p) => <Link key={p.id} href={`/produto/${p.slug}`} aria-label={p.name}><ProductArt product={p} bare /></Link>)}
               </div>
-              <div className="look__info">
-                <span className="mono muted">Look {String(i + 1).padStart(2, '0')}</span>
-                <h2>{l.title}</h2>
-                <p className="muted">{l.caption}</p>
-                <div className="look__items">
-                  {items.map((p) => (
-                    <Link key={p.id} href={`/produto/${p.slug}`}><span>{p.name} — {p.colorName}</span><span className="price">{money(p.priceCents)}</span></Link>
-                  ))}
-                </div>
-                {items.length > 0 && <div><ShopTheLook products={items} /></div>}
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </>
+            </div>
+            <figcaption className="lb__cap">
+              <span className="lb__n">{n(idx)}</span>
+              <span className="lb__items">
+                <b>{l.title.toLowerCase()}</b>
+                {items.map((p) => (
+                  <Link key={p.id} href={`/produto/${p.slug}`}>{p.name.toLowerCase()} — {p.colorName.toLowerCase()} · {money(p.priceCents)}</Link>
+                ))}
+              </span>
+              <span className="lb__side">
+                {items.length > 0 && <ShopTheLook products={items} />}
+                {idx < total ? <a href={`#look-${idx + 1}`} className="lb__next">próximo →</a> : <a href="#look-1" className="lb__next">↑ início</a>}
+              </span>
+            </figcaption>
+          </figure>
+        );
+      })}
+    </div>
   );
 }
