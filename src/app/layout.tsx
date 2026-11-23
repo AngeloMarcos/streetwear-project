@@ -7,6 +7,7 @@ import './verao27.css';
 import './bf27.css';
 import './home.css';
 import './editorial.css';
+import './focus.css';
 import { CartProvider } from '@/components/CartProvider';
 import { CartDrawer } from '@/components/CartDrawer';
 import { Header, Logo } from '@/components/Header';
@@ -47,7 +48,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="pt-BR" className={`${archivo.variable} ${geist.variable} ${serif.variable} ${mono.variable}`}>
       <body>
         <CartProvider config={shopConfig}>
-          <SiteChrome>
+          <SiteChrome focus={
+            <header className="co-top">
+              <Logo />
+              <span className="co-top__secure">Compra segura</span>
+            </header>
+          }>
           <div className={`announce ${bf.phase === 'live' ? 'announce--bf' : ''}`} aria-label="Avisos">
             <div className="announce__track">{ann.map((a, i) => <span key={i}>{a}</span>)}</div>
           </div>
@@ -56,7 +62,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Suspense>
           </SiteChrome>
           <main id="conteudo">{children}</main>
-          <SiteChrome>
+          <SiteChrome focus={
+            <footer className="co-foot">
+              <Link href="/ajuda#trocas">Trocas e devoluções</Link>
+              <Link href="/ajuda#envio">Envio e prazos</Link>
+              <Link href="/privacidade">Privacidade</Link>
+              <Link href="/termos">Termos de uso</Link>
+              <a href={site.social.whatsapp} target="_blank" rel="noopener">Ajuda no WhatsApp</a>
+            </footer>
+          }>
           <footer className="footer">
             <div className="footer__grid">
               <div>
@@ -97,7 +111,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </SiteChrome>
           <CartDrawer />
           <WhatsAppButton href={site.social.whatsapp} />
-          <SignupPopup blackFriday={bf.phase === 'teaser'} maxPercent={bf.maxPercent} />
+          <SiteChrome><SignupPopup blackFriday={bf.phase === 'teaser'} maxPercent={bf.maxPercent} /></SiteChrome>
         </CartProvider>
       </body>
     </html>

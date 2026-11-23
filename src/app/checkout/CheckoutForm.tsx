@@ -20,6 +20,8 @@ export function CheckoutForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [addr, setAddr] = useState({ street: '', district: '', city: '', uf: '' });
+  const [showSum, setShowSum] = useState(false); // resumo recolhido no celular
+  const payTotal = method === 'PIX' ? t.pixTotal : t.total;
   const n = installments(t.total, config);
 
   if (!lines.length) {
@@ -76,22 +78,29 @@ export function CheckoutForm() {
         <h1 className="co-title">Finalizar compra</h1>
         <h2 className="co-h">Contato</h2>
         <div className="form">
+          <label className="field full">E-mail<input required type="email" name="email" autoComplete="email" placeholder="voce@email.com" /></label>
+          <p className="co-hint full">O pedido e o código de rastreio chegam neste e-mail.</p>
           <label className="field full">Nome completo<input required name="name" autoComplete="name" /></label>
-          <label className="field">E-mail<input required type="email" name="email" autoComplete="email" /></label>
           <label className="field">Celular<input name="phone" inputMode="tel" autoComplete="tel" placeholder="(11) 90000-0000" onChange={(e) => (e.target.value = maskPhone(e.target.value))} /></label>
-          <label className="field full">CPF<input required name="cpf" inputMode="numeric" placeholder="000.000.000-00" maxLength={14} onChange={(e) => (e.target.value = maskCPF(e.target.value))} /></label>
+          <label className="field">CPF<input required name="cpf" inputMode="numeric" placeholder="000.000.000-00" maxLength={14} onChange={(e) => (e.target.value = maskCPF(e.target.value))} /></label>
         </div>
 
         <h2 className="co-h">Entrega</h2>
         <div className="form">
-          <label className="field">CEP<input required name="cep" inputMode="numeric" placeholder="00000-000" maxLength={9} autoComplete="postal-code"
+          <label className="field half">CEP<input required name="cep" inputMode="numeric" placeholder="00000-000" maxLength={9} autoComplete="postal-code"
             onChange={(e) => { e.target.value = maskCEP(e.target.value); lookupCEP(e.target.value); }} /></label>
-          <label className="field">Número<input required name="addressNumber" /></label>
+          <label className="field half">Número<input required name="addressNumber" inputMode="numeric" /></label>
           <label className="field full">Endereço<input required name="street" autoComplete="address-line1" value={addr.street} onChange={(e) => setAddr({ ...addr, street: e.target.value })} /></label>
           <label className="field">Complemento<input name="complement" autoComplete="address-line2" /></label>
           <label className="field">Bairro<input name="district" value={addr.district} onChange={(e) => setAddr({ ...addr, district: e.target.value })} /></label>
-          <label className="field">Cidade<input required name="city" autoComplete="address-level2" value={addr.city} onChange={(e) => setAddr({ ...addr, city: e.target.value })} /></label>
-          <label className="field">UF<input required name="uf" maxLength={2} autoComplete="address-level1" value={addr.uf} onChange={(e) => setAddr({ ...addr, uf: e.target.value.toUpperCase() })} /></label>
+          <label className="field half">Cidade<input required name="city" autoComplete="address-level2" value={addr.city} onChange={(e) => setAddr({ ...addr, city: e.target.value })} /></label>
+          <label className="field half">UF<input required name="uf" maxLength={2} autoComplete="address-level1" value={addr.uf} onChange={(e) => setAddr({ ...addr, uf: e.target.value.toUpperCase() })} /></label>
+        </div>
+
+        <div className="co-ship">
+          <span className="co-ship__dot" aria-hidden />
+          <div><strong>Correios</strong><small>Postagem em até 2 dias úteis após o pagamento · rastreio por e-mail</small></div>
+          <b>{t.shipping ? money(t.shipping) : 'Grátis'}</b>
         </div>
 
         <h2 className="co-h">Pagamento</h2>
@@ -106,10 +115,20 @@ export function CheckoutForm() {
         </div>
         {error && <p className="form-error" role="alert">{error}</p>}
         <button className="btn btn--block co-pay" disabled={busy}>{busy ? 'Processando…' : method === 'PIX' ? `Gerar Pix · ${money(t.pixTotal)}` : `Ir para pagamento · ${money(t.total)}`}</button>
+        <ul className="co-trust">
+          <li>Pagamento protegido pelo Mercado Pago</li>
+          <li>Troca grátis em 30 dias</li>
+          <li>Ajuda no WhatsApp</li>
+        </ul>
         <p className="co-legal">Ao finalizar você concorda com a política de trocas. Seus dados são usados só para entrega e nota fiscal.</p>
       </form>
 
-      <aside className="summary">
+      <aside className={`summary ${showSum ? 'is-open' : ''}`}>
+        <button type="button" className="co-sumtoggle" aria-expanded={showSum} onClick={() => setShowSum(!showSum)}>
+          <span>{showSum ? 'Esconder resumo' : 'Ver resumo do pedido'} <i aria-hidden>{showSum ? '▴' : '▾'}</i></span>
+          <b>{money(payTotal)}</b>
+        </button>
+        <div className="co-sum">
         <h2 className="co-h co-h--sum">Resumo · {count} {count === 1 ? 'item' : 'itens'}</h2>
         {lines.map((l) => (
           <div className="line" key={l.variantId} style={{ gridTemplateColumns: '56px 1fr auto' }}>
@@ -126,7 +145,9 @@ export function CheckoutForm() {
           <div><span>Subtotal</span><span>{money(t.subtotal)}</span></div>
           <div><span>Frete</span><span>{t.shipping ? money(t.shipping) : 'Grátis'}</span></div>
           {method === 'PIX' && <div className="pix"><span>Desconto Pix</span><span>−{money(t.pixDiscount)}</span></div>}
-          <div className="grand"><span>Total</span><span>{money(method === 'PIX' ? t.pixTotal : t.total)}</span></div>
+          <div className="grand"><span>Total</span><span><small>BRL</small> {money(payTotal)}</span></div>
+          {method === 'CARD' && n > 1 && <p className="co-inst">ou {n}x de {money(Math.round(t.total / n))} sem juros</p>}
+        </div>
         </div>
       </aside>
     </section>

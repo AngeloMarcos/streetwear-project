@@ -2,10 +2,11 @@
 
 import { usePathname } from 'next/navigation';
 
-/** Esconde o topo e o rodapé do site principal nas rotas de apresentação /template-1, -2, -3
- *  (cada template tem o seu próprio). Não muda nada nas outras páginas. */
-export function SiteChrome({ children }: { children: React.ReactNode }) {
+/** Checkout e página do pedido usam um topo e um rodapé enxutos (estilo checkout Shopify das referências):
+ *  sem menu, sem faixa de avisos e sem popup, para o cliente não sair no meio da compra. */
+export const isFocusRoute = (pathname: string) => /^\/(checkout|pedido)(\/|$)/.test(pathname);
+
+export function SiteChrome({ children, focus = null }: { children: React.ReactNode; focus?: React.ReactNode }) {
   const pathname = usePathname();
-  if (/^\/template-\d/.test(pathname)) return null;
-  return <>{children}</>;
+  return <>{isFocusRoute(pathname) ? focus : children}</>;
 }
