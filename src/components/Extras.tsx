@@ -33,7 +33,7 @@ export function SignupPopup({ blackFriday, maxPercent }: { blackFriday: boolean;
   const pathname = usePathname();
   const [show, setShow] = useState(false);
   const key = blackFriday ? 'bloco.popup.bf' : 'bloco.popup.news';
-  const blocked = /^\/(admin|checkout|pedido)/.test(pathname);
+  const blocked = /^\/(admin|checkout|pedido|produto)/.test(pathname); // na página de produto atrapalha a escolha do tamanho
 
   useEffect(() => {
     if (blocked || store.get(key)) return;
@@ -117,16 +117,16 @@ export function StickyBuy({ p, targetId }: { p: ProductDTO; targetId: string }) 
   useEffect(() => {
     const el = document.getElementById(targetId);
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setVisible(!e.isIntersecting && e.boundingClientRect.top < 0));
+    const io = new IntersectionObserver(([e]) => setVisible(!e.isIntersecting));
     io.observe(el);
     return () => io.disconnect();
   }, [targetId]);
   return (
     <div className={`sticky-buy ${visible ? 'is-show' : ''}`} aria-hidden={!visible}>
-      <div><b>{p.name}</b><span className={p.offPercent ? 'price--bf' : ''}>{money(p.priceCents)}</span></div>
+      <div><b>{p.name}</b><span className={p.offPercent ? 'price--bf' : ''}>{money(p.priceCents)} <small>· {p.colorName}</small></span></div>
       <button className="btn" tabIndex={visible ? 0 : -1} disabled={soldOut}
         onClick={() => document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
-        {soldOut ? 'Esgotado' : 'Comprar'}
+        {soldOut ? 'Esgotado' : 'Escolher tamanho'}
       </button>
     </div>
   );

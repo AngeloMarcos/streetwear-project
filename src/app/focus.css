@@ -97,3 +97,20 @@ article .section__head .section__title { font: 700 13px/1.2 var(--body) !importa
 .nf__title { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 7vw, 96px); line-height: 1; letter-spacing: -.01em; }
 .nf__text { color: #444; font-size: 15px; }
 .nf__links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+/* ---------- barra fixa de compra na página de produto (celular) ---------- */
+@media (max-width: 760px) {
+  .sticky-buy { padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .97); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px rgba(0, 0, 0, .06); }
+  .sticky-buy b { font: 600 13px/1.2 var(--body); }
+  .sticky-buy span { font-size: 12.5px; color: #111; }
+  .sticky-buy small { color: var(--muted); font-size: 12px; }
+  .sticky-buy .btn { height: 46px; padding: 0 18px; border-radius: 0; font-size: 11.5px; }
+}
+
+/* ---------- aviso "no carrinho" não cobre o botão de finalizar ---------- */
+body:has(.drawer.is-open) .toast { bottom: auto; top: 14px; transform: translate(-50%, -160%); }
+body:has(.drawer.is-open) .toast.is-show { transform: translate(-50%, 0); }
+@media (min-width: 761px) { body:has(.drawer.is-open) .toast { left: calc(100% - min(420px, 100%) / 2); } }
+.toast { border-radius: 0; font-size: 13px; }
+
+body:has(.drawer.is-open) .popup { display: none; }
