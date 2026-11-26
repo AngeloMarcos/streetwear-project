@@ -3,7 +3,7 @@ node_modules
 out
 .env
 .env.local
-uploads
+/uploads
 *.log
 .devdb
 next-env.d.ts
