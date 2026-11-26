@@ -12,9 +12,10 @@ export function ProductCard({ p }: { p: ProductDTO }) {
   const soldOut = available === 0;
   return (
     <article className="card">
-      <Link href={`/produto/${p.slug}`} className="card__img" aria-label={`${p.name} ${p.colorName}`}>
+      <Link href={`/produto/${p.slug}`} className={`card__img ${p.images.length > 1 ? '' : 'card__img--single'}`} aria-label={`${p.name} ${p.colorName}`}>
         <div className="badges">
           {p.offPercent > 0 && <span className="badge badge--bf">−{p.offPercent}%</span>}
+          {!soldOut && p.tags.includes('novo') && <span className="badge badge--new">Novo</span>}
           {soldOut && <span className="badge badge--dark">Esgotado</span>}
           {!soldOut && available < p.sizes.length && <span className="badge">Últimas peças</span>}
         </div>
@@ -31,7 +32,6 @@ export function ProductCard({ p }: { p: ProductDTO }) {
       <div>
         <Link href={`/produto/${p.slug}`} className="card__name">
           {p.name}
-          {!soldOut && p.tags.includes('novo') && <span className="card__new"> Novo</span>}
           {p.tags.includes('collab') && <span className="card__new card__new--collab"> Collab</span>}
         </Link>
         <div className="card__meta">{p.colorName}</div>

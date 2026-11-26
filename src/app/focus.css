@@ -114,3 +114,21 @@ body:has(.drawer.is-open) .toast.is-show { transform: translate(-50%, 0); }
 .toast { border-radius: 0; font-size: 13px; }
 
 body:has(.drawer.is-open) .popup { display: none; }
+
+/* ---------- Vitrine com fotos reais: cartões maiores e etiquetas legíveis ---------- */
+@media (min-width: 1025px) {
+  .shop .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px 10px; }
+  .shop .card__name, .shop .card .price, .shop .card .price-old { font-size: 13.5px; }
+  .shop .card__meta { font-size: 12.5px; }
+}
+/* etiquetas em cima da foto: fundo branco para ler em qualquer foto */
+.card__img .badges { gap: 4px; }
+.card__img .badge { background: #fff !important; padding: 5px 7px; border-radius: 2px; }
+.card__img .badge + .badge::before { content: none; }
+.card__img .badge--dark { background: #111 !important; color: #fff !important; }
+.card__img .badge--new { color: #111 !important; }
+/* foto única: leve aproximação ao passar o mouse (em vez de trocar pela mesma foto) */
+.card__img--single .art + .art { display: none; }
+.card__img .art > img { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+.card:hover .card__img--single .art > img { transform: scale(1.045); }
+@media (prefers-reduced-motion: reduce) { .card__img .art > img { transition: none; } .card:hover .card__img--single .art > img { transform: none; } }
