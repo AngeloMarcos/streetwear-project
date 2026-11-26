@@ -29,18 +29,31 @@ function care(type: string) {
   return ['Lavar do avesso em água fria', 'Não usar secadora', 'Não passar sobre a estampa'];
 }
 
+/** "Combina com": peças de outros tipos (jaqueta sugere calça, camiseta, boné...), um de cada tipo,
+ *  começando num ponto diferente para cada produto, para as sugestões não serem sempre as mesmas */
+function pairWith<T extends { type: string }>(slug: string, list: T[], max = 8): T[] {
+  const seen = new Set<string>();
+  const oneEach = list.filter((x) => !seen.has(x.type) && seen.add(x.type));
+  if (!oneEach.length) return [];
+  let h = 0;
+  for (const c of slug) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  const start = h % oneEach.length;
+  return [...oneEach.slice(start), ...oneEach.slice(0, start)].slice(0, max);
+}
+
 export default async function ProductPage({ params }: { params: Params }) {
   const { slug } = await params;
   const p = await getProduct(slug);
   if (!p) notFound();
   const full = await db.product.findUnique({ where: { slug }, select: { description: true } });
 
-  const [variants, related, bf] = await Promise.all([
+  const [variants, others, bf] = await Promise.all([
     listProducts({ name: p.name }),
-    listProducts({ category: p.category, NOT: { name: p.name } }, 8),
+    listProducts({ NOT: [{ name: p.name }, { type: p.type }] }),
     getBf(),
   ]);
   const n = installments(p.priceCents, shopConfig);
+  const related = pairWith(p.slug, others);
 
   return (
     <>
@@ -110,7 +123,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
-      <ProductStrip title="Combina com" href={`/loja?cat=${p.category}`} products={related} />
+      <ProductStrip title="Combina com" href="/loja" products={related} />
       <RecentlyViewed slug={p.slug} />
     </>
   );

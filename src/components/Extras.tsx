@@ -71,9 +71,9 @@ export function RecentlyViewed({ slug }: { slug: string }) {
   }, [slug]);
   if (!items.length) return null;
   return (
-    <section className="section">
-      <div className="section__head"><h2 className="section__title">Vistos recentemente</h2></div>
-      <div className="grid">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>
+    <section className="strip strip--recent">
+      <div className="strip__head"><h3>Vistos recentemente</h3></div>
+      <div className="strip__row">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>
     </section>
   );
 }

@@ -172,3 +172,6 @@ body:has(.drawer.is-open) .popup { display: none; }
   .ed-values span { margin-bottom: 12px; }
   .footer__mark { margin-top: 28px; }
 }
+
+/* "Vistos recentemente" no mesmo formato de faixa, separado de "Combina com" */
+.strip--recent { border-top: 1px solid var(--line); padding-top: 28px; }
