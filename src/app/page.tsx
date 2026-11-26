@@ -96,14 +96,19 @@ export default async function Home() {
 
       {/* Valores (Noah), em texto pequeno */}
       <section className="ed-values" aria-label="Como a gente faz">
-        <div><b>Algodão 300g</b><p>Camisetas e moletons com quase o dobro do peso comum.</p></div>
-        <div><b>Feito em São Paulo</b><p>Costura, estampa e lavagem em oficinas da cidade.</p></div>
-        <div><b>Tiragem curta</b><p>Drop toda quinta. Quando acaba, acaba.</p></div>
-        <div><b>Troca sem drama</b><p>30 dias pra trocar, tudo pelo WhatsApp.</p></div>
+        <h2 className="ed-values__title">Como a gente faz</h2>
+        <div><span>01</span><b>Algodão 300g</b><p>Camisetas e moletons com quase o dobro do peso comum.</p></div>
+        <div><span>02</span><b>Feito em São Paulo</b><p>Costura, estampa e lavagem em oficinas da cidade.</p></div>
+        <div><span>03</span><b>Tiragem curta</b><p>Drop toda quinta. Quando acaba, acaba.</p></div>
+        <div><span>04</span><b>Troca sem drama</b><p>30 dias pra trocar, tudo pelo WhatsApp.</p></div>
       </section>
 
       <section className="ed-news">
-        <p>Lista de e-mail: aviso de drop 1h antes de todo mundo.</p>
+        <div>
+          <span className="ed-news__kicker">Lista Street Dreams</span>
+          <h2 className="ed-news__title">Drop toda quinta.<br />Fica sabendo antes.</h2>
+          <p>Aviso de drop 1h antes de todo mundo. Sem spam.</p>
+        </div>
         <EmailForm source="newsletter" placeholder="seu@email.com" button="Assinar" />
       </section>
     </div>

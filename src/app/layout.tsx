@@ -107,6 +107,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <span><Link href="/privacidade">Privacidade</Link> · <Link href="/termos">Termos de uso</Link></span>
               <span><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a> · <a href={site.social.tiktok} target="_blank" rel="noopener">TikTok</a></span>
             </div>
+            <div className="footer__mark" aria-hidden>{site.name}</div>
           </footer>
           </SiteChrome>
           <CartDrawer />
