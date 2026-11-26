@@ -132,3 +132,10 @@ body:has(.drawer.is-open) .popup { display: none; }
 .card__img .art > img { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
 .card:hover .card__img--single .art > img { transform: scale(1.045); }
 @media (prefers-reduced-motion: reduce) { .card__img .art > img { transition: none; } .card:hover .card__img--single .art > img { transform: none; } }
+
+/* ---------- Página de produto com uma foto só: um quadro grande, sem repetir a mesma imagem ---------- */
+.pdp--ed .pdp__gallery--1 { grid-template-columns: minmax(0, 1fr); }
+.pdp--ed .pdp__gallery--1 > div { width: min(100%, calc((100vh - 96px) * .8)); margin: 0 auto; }
+@media (max-width: 1024px) {
+  .pdp--ed .pdp__gallery--1 > div { flex-basis: 100%; width: 100%; }
+}

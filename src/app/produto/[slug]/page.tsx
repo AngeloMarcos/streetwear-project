@@ -46,10 +46,11 @@ export default async function ProductPage({ params }: { params: Params }) {
     <>
       {/* Página de produto no estilo Carhartt WIP (fotos em grade, cinza) + Kith (painel fixo, linhas finas) */}
       <section className="pdp pdp--ed">
-        <div className="pdp__gallery">
+        {/* com fotos: uma por quadro, sem repetir; sem fotos: as 3 vistas do desenho */}
+        <div className={`pdp__gallery ${p.images.length === 1 ? 'pdp__gallery--1' : ''}`}>
           <div><ProductArt product={p} /></div>
-          <div><ProductArt product={p} view={1} /></div>
-          <div className="pdp__wide"><ProductArt product={p} view={2} /></div>
+          {(p.images.length === 0 || p.images.length > 1) && <div><ProductArt product={p} view={1} /></div>}
+          {(p.images.length === 0 || p.images.length > 2) && <div className="pdp__wide"><ProductArt product={p} view={2} /></div>}
         </div>
         <div className="pdp__info">
           <nav className="crumbs" aria-label="Você está em">
